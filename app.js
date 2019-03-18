@@ -9,6 +9,24 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+
+/**
+ * Mongo in Mlab
+ */
+
+const mongoose = require('mongoose')
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect("mongodb://cancidas:QuFynIf8aAwsGxTun5@ds145780.mlab.com:45780/catalyst-electrify", {
+  useNewUrlParser: true
+},function(err) {
+    if (err)
+        console.error(err);
+    else
+        console.log("Connected to DB");
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'twig');
