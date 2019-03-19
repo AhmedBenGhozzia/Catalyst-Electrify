@@ -17,8 +17,7 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise;
-
-mongoose.connect("mongodb://habib:habib123@ds255260.mlab.com:55260/the-northmen", {
+mongoose.connect("mongodb://habib:habib123@ds145780.mlab.com:45780/catalyst-electrify", {
   useNewUrlParser: true
 },function(err) {
     if (err)
