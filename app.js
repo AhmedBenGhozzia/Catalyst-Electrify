@@ -14,7 +14,7 @@ app.use(bodyParser.json());
  * Mongo in Mlab
  */
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose') 
 
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://habib:habib123@ds145780.mlab.com:45780/catalyst-electrify", {
