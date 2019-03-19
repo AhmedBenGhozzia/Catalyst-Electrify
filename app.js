@@ -3,12 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+const User = require('./routes/api/UserRoute')
+const bodyParser = require('body-parser');
 var app = express();
-
+app.use(bodyParser.json());
 
 /**
  * Mongo in Mlab
@@ -18,7 +18,7 @@ const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect("mongodb://cancidas:QuFynIf8aAwsGxTun5@ds145780.mlab.com:45780/catalyst-electrify", {
+mongoose.connect("mongodb://habib:habib123@ds255260.mlab.com:55260/the-northmen", {
   useNewUrlParser: true
 },function(err) {
     if (err)
@@ -26,6 +26,11 @@ mongoose.connect("mongodb://cancidas:QuFynIf8aAwsGxTun5@ds145780.mlab.com:45780/
     else
         console.log("Connected to DB");
 })
+
+
+app.use('/api/user',User);
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
