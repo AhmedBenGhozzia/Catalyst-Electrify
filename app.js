@@ -17,19 +17,15 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose') 
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://habib:habib123@ds145780.mlab.com:45780/catalyst-electrify", {
-  useNewUrlParser: true
+mongoose.connect("mongodb://cancidas:Z3CYcCGVLZB7UDZSf1@ds145780.mlab.com:45780/catalyst-electrify", {
+  useNewUrlParser: true,
+  useCreateIndex: true
 },function(err) {
     if (err)
         console.error(err);
     else
         console.log("Connected to DB");
 })
-
-
-app.use('/api/user',User);
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/user',User);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
