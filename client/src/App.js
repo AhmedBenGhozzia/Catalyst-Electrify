@@ -1,25 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import NavBar from "./components/NavBar";
+import Setting from "./components/Settings";
+import SideBar from "./components/SideBar";
+import Button from "./components/Button";
+import "./css/vendor.bundle.addons.css";
+import "./css/vendor.bundle.base.css";
+import "./css/style.css";
+import "./iconfonts/mdi/font/css/materialdesignicons.min.css";
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="container-scroller">
+        <NavBar></NavBar>
+        <div className="container-fluid page-body-wrapper" >
+          <Setting></Setting>
+          <SideBar></SideBar>
+          <div className="main-panel">
+            <div className="content-wrapper">
+              <Button value="test" type="inverse" color="dark"></Button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
