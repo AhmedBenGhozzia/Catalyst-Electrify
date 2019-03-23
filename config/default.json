@@ -1,0 +1,4 @@
+{
+    "mongoURI" : "mongodb://cancidas:Z3CYcCGVLZB7UDZSf1@ds145780.mlab.com:45780/catalyst-electrify",
+    "jwtSecret" : "piWebElectrify"
+}

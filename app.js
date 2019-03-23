@@ -5,10 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-const User = require('./routes/api/UserRoute')
-const bodyParser = require('body-parser');
+const User = require('./routes/api/UserRoute');
+const config = require('config');
 var app = express();
-app.use(bodyParser.json());
 
 /**
  * Mongo in Mlab
@@ -17,7 +16,7 @@ app.use(bodyParser.json());
 const mongoose = require('mongoose') 
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://cancidas:Z3CYcCGVLZB7UDZSf1@ds145780.mlab.com:45780/catalyst-electrify", {
+mongoose.connect(config.get('mongoURI'), {
   useNewUrlParser: true,
   useCreateIndex: true
 },function(err) {
