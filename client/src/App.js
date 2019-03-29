@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
+import store from './store';
+import { loadUser } from './actions/authActions'
 import NavBar from "./components/NavBar";
 import Setting from "./components/Settings";
 import SideBar from "./components/SideBar";
@@ -11,6 +13,11 @@ import "./iconfonts/mdi/font/css/materialdesignicons.min.css";
 
 
 class App extends Component {
+
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
   render() {
     return (
       <div className="container-scroller">
