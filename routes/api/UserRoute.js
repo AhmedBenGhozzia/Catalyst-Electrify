@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../../models/user');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth')
 
 function createToken(user) {
     return jwt.sign(
@@ -18,7 +19,7 @@ function createToken(user) {
     );
 }
 
-router.get('/', (req, res, next) => {
+router.get('/', auth, (req, res, next) => {
     const username = req.query.username;
     const id = req.query.id;
     const email = req.query.email;
@@ -87,7 +88,7 @@ router.put('/', (req, res, next) => {
 
 })
 
-router.delete('/', (req, res, next) => {
+router.delete('/', auth, (req, res, next) => {
     const username = req.query.username;
     const id = req.query.id;
     const email = req.query.email;

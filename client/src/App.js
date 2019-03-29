@@ -1,5 +1,7 @@
-import React, { Component } from "react";
-import "./App.css";
+import React, { Component } from 'react';
+import './App.css';
+import store from './store';
+import { loadUser } from './actions/authActions'
 import NavBar from "./components/NavBar";
 import Setting from "./components/Settings";
 import SideBar from "./components/SideBar";
@@ -13,6 +15,11 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
 
 class App extends Component {
+
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
   render() {
     return (
       <div className="container-scroller">
