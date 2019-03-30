@@ -15,7 +15,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
-
+import Notification from "./components/Notification"
 class App extends Component {
 
   componentDidMount() {
@@ -32,6 +32,8 @@ class App extends Component {
             <SideBar />
             <div className="main-panel">
               <div className="content-wrapper">
+              <Notification/>
+
                 <Router>
                   <Switch>
                     <Route exact path="/" component={Dashboard} />
