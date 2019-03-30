@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import store from './store';
 import { loadUser } from './actions/authActions'
-import NavBar from "./components/NavBar";
-import Setting from "./components/Settings";
-import SideBar from "./components/SideBar";
-import Button from "./components/Button";
+import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import "./css/vendor.bundle.addons.css";
 import "./css/vendor.bundle.base.css";
@@ -25,24 +22,13 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="container-scroller">
-          <NavBar />
-          <div className="container-fluid page-body-wrapper">
-            <Setting />
-            <SideBar />
-            <div className="main-panel">
-              <div className="content-wrapper">
-                <Router>
-                  <Switch>
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/register" component={Register} />
-                    <Route component={NotFound} />
-                  </Switch>
-                </Router>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/register" component={Register} />
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </Provider>
     );
   }
