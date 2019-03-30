@@ -80,7 +80,10 @@ router.post('/', (req, res, next) => {
         if (err)
             res.status(400).send(err)
         else
-            res.status(201).send(user)
+            res.status(201).send({
+                token: createToken(user),
+                user
+            })
     })
 });
 

@@ -13,6 +13,8 @@ import "./css/style.css";
 import "./iconfonts/mdi/font/css/materialdesignicons.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
+import Register from './components/auth/Register';
+import { Provider } from 'react-redux';
 
 class App extends Component {
 
@@ -22,23 +24,26 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container-scroller">
-        <NavBar />
-        <div className="container-fluid page-body-wrapper">
-          <Setting />
-          <SideBar />
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <Router>
-                <Switch>
-                  <Route exact path="/" component={Dashboard} />
-                  <Route component={NotFound} />
-                </Switch>
-              </Router>
+      <Provider store={store}>
+        <div className="container-scroller">
+          <NavBar />
+          <div className="container-fluid page-body-wrapper">
+            <Setting />
+            <SideBar />
+            <div className="main-panel">
+              <div className="content-wrapper">
+                <Router>
+                  <Switch>
+                    <Route exact path="/" component={Dashboard} />
+                    <Route path="/register" component={Register} />
+                    <Route component={NotFound} />
+                  </Switch>
+                </Router>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Provider>
     );
   }
 }
