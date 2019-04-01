@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Logout from './auth/Logout';
 
 class NavBar extends Component {
   render() {
@@ -123,10 +124,7 @@ class NavBar extends Component {
                                     <i className="mdi mdi-settings text-primary" />
                                     Settings
           </a>
-                                <a className="dropdown-item">
-                                    <i className="mdi mdi-logout text-primary" />
-                                    Logout
-          </a>
+                                <Logout/>
                             </div>
                         </li>
                         <li className="nav-item nav-settings d-none d-lg-flex">

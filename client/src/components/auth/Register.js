@@ -25,7 +25,7 @@ class Register extends Component {
         if (error !== prevProps.error) {
             // Check for register error
             if (error.id === 'REGISTER_FAIL') {
-                this.setState({ msg: error.msg.msg });
+                this.setState({ msg: error.msg.message });
             } else {
                 this.setState({ msg: null });
             }
@@ -34,6 +34,7 @@ class Register extends Component {
         // If authenticated
         if (isAuthenticated) {
             //redirect to dashboard
+            this.props.history.push('/')
         }
     }
 
@@ -71,6 +72,8 @@ class Register extends Component {
                                     </div>
                                     <h4>New here?</h4>
                                     <h6 className="font-weight-light">Join us today! It takes only few steps</h6>
+                                    {/*alert*/}
+                                    {this.state.msg ? <div className="alert alert-danger" role="alert">{this.state.msg}</div> : null}
                                     <form className="pt-3" onSubmit={this.onSubmit}>
                                         <div className="form-group">
                                             <label>Username</label>
