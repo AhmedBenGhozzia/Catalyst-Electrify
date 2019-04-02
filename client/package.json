@@ -3,10 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "fs-extra": "^7.0.1",
+    "ganache-cli": "^6.4.1",
+    "mocha": "^6.0.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "semantic-ui-react": "^0.86.0",
+    "solc": "^0.4.25",
+    "truffle-hdwallet-provider": "0.0.3",
+    "web3": "^1.0.0-beta.37"
   },
   "scripts": {
     "start": "react-scripts start",

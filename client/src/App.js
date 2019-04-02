@@ -3,8 +3,8 @@ import "./App.css";
 import NavBar from "./components/NavBar";
 import Setting from "./components/Settings";
 import SideBar from "./components/SideBar";
-import Button from "./components/Button";
 import Dashboard from "./components/Dashboard";
+import CatalystDetails from "./components/CatalystDetails";
 import "./css/vendor.bundle.addons.css";
 import "./css/vendor.bundle.base.css";
 import "./css/style.css";
@@ -25,6 +25,11 @@ class App extends Component {
               <Router>
                 <Switch>
                   <Route exact path="/" component={Dashboard} />
+                  <Route
+                    exact
+                    path="/contract/:address"
+                    component={CatalystDetails}
+                  />
                   <Route component={NotFound} />
                 </Switch>
               </Router>
