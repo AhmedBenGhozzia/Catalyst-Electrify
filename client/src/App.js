@@ -32,12 +32,12 @@ class App extends Component {
             <SideBar />
             <div className="main-panel">
               <div className="content-wrapper">
-              <Notification/>
 
                 <Router>
                   <Switch>
                     <Route exact path="/" component={Dashboard} />
                     <Route path="/register" component={Register} />
+                    <Route path ="/notifications" component={Notification}/>
                     <Route component={NotFound} />
                   </Switch>
                 </Router>

@@ -6,6 +6,10 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const User = require('./routes/api/UserRoute');
+const Notif = require('./routes/api/NotificationRoute');
+const DataNotification = require('./routes/api/DataNotificationRoute');
+const tenserNotif = require('./routes/api/TenserNotif');
+
 const config = require('config');
 var app = express();
 
@@ -39,6 +43,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/user',User);
+app.use('/notif',Notif);
+app.use('/DataNotification',DataNotification);
+app.use('/n',tenserNotif);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
