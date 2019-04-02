@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import NavBar from "./components/NavBar";
+import Setting from "./components/Settings";
+import SideBar from "./components/SideBar";
+
 import store from './store';
 import { loadUser } from './actions/authActions'
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
+import CatalystDetails from "./components/CatalystDetails";
 import "./css/vendor.bundle.addons.css";
 import "./css/vendor.bundle.base.css";
 import "./css/style.css";
@@ -21,6 +26,7 @@ class App extends Component {
 
   render() {
     return (
+
       <Provider store={store}>
         <Router>
           <Switch>
