@@ -1,8 +1,21 @@
 import React, { Component } from 'react'
+import Logout from './auth/Logout';
+
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 class NavBar extends Component {
-  render() {
-    return (
+
+    static propTypes = {
+        auth: PropTypes.object.isRequired
+    };
+    
+
+    render() {
+
+        const { isAuthenticated, user } = this.props.auth;
+
+        return (
 
             <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -115,18 +128,15 @@ class NavBar extends Component {
                         </li>
                         <li className="nav-item nav-profile dropdown mr-0 mr-sm-2">
                             <a className="nav-link dropdown-toggle" href="" data-toggle="dropdown" id="profileDropdown">
-                                <img src="../../images/faces/face28.jpg" alt="profile" />
-                                <span className="nav-profile-name">Don Richards</span>
+                                <img src="https://i.stack.imgur.com/34AD2.jpg" alt="profile" />
+                                <span className="nav-profile-name">{user ? `${user.username}` : ''}</span>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                                 <a className="dropdown-item">
                                     <i className="mdi mdi-settings text-primary" />
                                     Settings
           </a>
-                                <a className="dropdown-item">
-                                    <i className="mdi mdi-logout text-primary" />
-                                    Logout
-          </a>
+                                <Logout />
                             </div>
                         </li>
                         <li className="nav-item nav-settings d-none d-lg-flex">
@@ -142,8 +152,12 @@ class NavBar extends Component {
             </nav>
 
 
-    )
-  }
+        )
+    }
 }
 
-export default NavBar;
+const mapStateProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateProps, null)(NavBar);
