@@ -19,48 +19,61 @@ function createToken(user) {
     );
 }
 
-router.get('/', auth, (req, res, next) => {
-    const username = req.query.username;
-    const id = req.query.id;
-    const email = req.query.email;
-    if (id != null) {
-        User.findById(id).exec((err, user) => {
-            if (err)
-                res.status(400).send(err)
-            else if (!user)
-                res.status(404).send("no user found")
-            else
-                res.status(200).send(user)
-        })
-    } else if (username != null) {
-        User.findOne({ username: username }).exec((err, user) => {
-            if (err)
-                res.status(400).send(err)
-            else if (!user)
-                res.status(404).send("no user found")
-            else
-                res.status(200).send(user)
-        })
-    } else if (email != null) {
-        User.findOne({ email: email }).exec((err, user) => {
-            if (err)
-                res.status(400).send(err)
-            else if (!user)
-                res.status(404).send('no user found')
-            else
-                res.status(200).send(user)
-        })
-    } else {
-        User.find((err, users) => {
-            if (err)
-                res.status(400).send(err)
-            else if (!users)
-                res.status(404).send("no user found")
-            else
-                res.status(200).send(users)
-        })
-    }
+router.get('/', auth, (req, res) => {
+    console.log(req.user.id)
+    User.findById(req.user.id).exec((err, user) => {
+        if (err)
+            res.status(400).send(err)
+        else if (!user)
+            res.status(404).send("no user found")
+        else
+            res.status(200).send(user)
+    })
 });
+
+// router.get('/', auth, (req, res, next) => {
+//     const username = req.query.username;
+//     const id = req.query.id;
+//     const email = req.query.email;
+//     console.log(req.user)
+//     if (id != null) {
+//         User.findById(id).exec((err, user) => {
+//             if (err)
+//                 res.status(400).send(err)
+//             else if (!user)
+//                 res.status(404).send("no user found")
+//             else
+//                 res.status(200).send(user)
+//         })
+//     } else if (username != null) {
+//         User.findOne({ username: username }).exec((err, user) => {
+//             if (err)
+//                 res.status(400).send(err)
+//             else if (!user)
+//                 res.status(404).send("no user found")
+//             else
+//                 res.status(200).send(user)
+//         })
+//     } else if (email != null) {
+//         User.findOne({ email: email }).exec((err, user) => {
+//             if (err)
+//                 res.status(400).send(err)
+//             else if (!user)
+//                 res.status(404).send('no user found')
+//             else
+//                 res.status(200).send(user)
+//         })
+//     } else {
+//         User.find((err, users) => {
+//             if (err)
+//                 res.status(400).send(err)
+//             else if (!users)
+//                 res.status(404).send("no user found")
+//             else
+//                 res.status(200).send(users)
+//         })
+//     }
+// });
 
 
 router.post('/', (req, res, next) => {
@@ -131,8 +144,7 @@ router.post('/login', (req, res, next) => {
     const { username, email, password } = req.body;
     if (!password) {
         res.status(400).send("need to enter a password")
-    }
-    if (email) {
+    } else if (email) {
         User.findOne({ email }).select("+password").exec((err, user) => {
             if (err) {
                 res.status(400).send(err)
