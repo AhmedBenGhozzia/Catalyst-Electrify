@@ -6,8 +6,11 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const User = require('./routes/api/UserRoute');
+const SmartHub = require('./routes/api/SmartHubRoutes');
+const ProdCons = require('./routes/api/ProdConsRoutes');
 const config = require('config');
 var app = express();
+var cors = require('cors')
 
 /**
  * Mongo in Mlab
@@ -15,10 +18,8 @@ var app = express();
 
 const mongoose = require('mongoose') 
 
-mongoose.Promise = global.Promise;
-mongoose.connect(config.get('mongoURI'), {
-  useNewUrlParser: true,
-  useCreateIndex: true
+mongoose.connect("mongodb://habib:habib123@ds145780.mlab.com:45780/catalyst-electrify", {
+  useNewUrlParser: true
 },function(err) {
     if (err)
         console.error(err);
@@ -35,10 +36,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors())
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/user',User);
+app.use('/api/SmartHub',SmartHub);
+app.use('/api/ProdCons',ProdCons);
+app.use('../Catalyst-Electrify/loop.js',setInterval);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

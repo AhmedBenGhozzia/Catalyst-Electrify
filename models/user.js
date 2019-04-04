@@ -26,7 +26,14 @@ const UserSchema = new Schema({
         type: String,
         enum: ['ROLE_ADMIN', 'ROLE_USER'],
         require: true
-    }
+    },
+
+    SmartHubs : [{
+        type : Schema.Types.ObjectId,
+        ref : 'smartHub',
+        required:true,
+        default : null
+    }]
 
 });
 
