@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import './App.css';
-import store from './store';
-import { loadUser } from './actions/authActions'
+import React, { Component } from "react";
+import "./App.css";
 import NavBar from "./components/NavBar";
 import Setting from "./components/Settings";
 import SideBar from "./components/SideBar";
-import Button from "./components/Button";
-import Dashboard from "./components/Dashboard";
+
+import store from './store';
+import { loadUser } from './actions/authActions'
+import Home from "./components/Home";
+import CatalystDetails from "./components/CatalystDetails";
 import "./css/vendor.bundle.addons.css";
 import "./css/vendor.bundle.base.css";
 import "./css/style.css";
@@ -16,6 +17,7 @@ import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
 import Notification from "./components/Notification"
+import Login from './components/auth/Login';
 class App extends Component {
 
   componentDidMount() {
@@ -24,27 +26,18 @@ class App extends Component {
 
   render() {
     return (
-      <Provider store={store}>
-        <div className="container-scroller">
-          <NavBar />
-          <div className="container-fluid page-body-wrapper">
-            <Setting />
-            <SideBar />
-            <div className="main-panel">
-              <div className="content-wrapper">
 
-                <Router>
-                  <Switch>
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/register" component={Register} />
-                    <Route path ="/notifications" component={Notification}/>
-                    <Route component={NotFound} />
-                  </Switch>
-                </Router>
-              </div>
-            </div>
-          </div>
-        </div>
+      <Provider store={store}>
+
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path ="/notifications" component={Notification}/>
+            <Route path="/register" component={Register} />
+            <Route path="/login" component={Login}/>
+            <Route component={NotFound} />
+          </Switch>
+        </Router>
       </Provider>
     );
   }
