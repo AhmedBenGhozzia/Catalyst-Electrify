@@ -1,0 +1,21 @@
+[
+    {
+       "consomation":10,
+        "energy": 500,
+        "vente":true
+    },
+    {
+        "consomation":200,
+         "energy": 500,
+         "vente":false
+
+     }, {
+        "consomation":50,
+         "energy": 500,
+         "vente":true
+     }, {
+        "consomation":150,
+         "energy": 500,
+         "vente":false
+     }
+]

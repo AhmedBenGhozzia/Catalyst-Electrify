@@ -16,8 +16,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
+import Notification from "./components/Notification"
 import Login from './components/auth/Login';
-
 class App extends Component {
 
   componentDidMount() {
@@ -28,9 +28,11 @@ class App extends Component {
     return (
 
       <Provider store={store}>
+
         <Router>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route path ="/notifications" component={Notification}/>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login}/>
             <Route component={NotFound} />
