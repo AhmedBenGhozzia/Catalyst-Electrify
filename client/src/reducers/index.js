@@ -6,6 +6,9 @@ import notifReducer from './notifReducer';
 export default combineReducers({
     auth: authReducer,
     error: errorReducer,
-    notif : notifReducer
+    notif : notifReducer,
+    notifStatus : notifReducer
+
+
 
 })

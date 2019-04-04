@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF} from './types';
+import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from './types';
 
 export const getNotif = ()=> dispatch =>{
 dispatch(setNotifLoading());
@@ -14,6 +14,58 @@ axios
     
 
 }
+export const getSuccsess = ()=> dispatch =>{
+    dispatch(setNotifLoading());
+    axios
+    .get('/notif/SuccessNotif')
+    .then(res =>
+        dispatch({
+            type : SUCCESS_NOTIF,
+            payload : res.data
+        }))
+    
+        
+    
+    }
+    export const getWarning = ()=> dispatch =>{
+        dispatch(setNotifLoading());
+        axios
+        .get('/notif/WarningNotif')
+        .then(res =>
+            dispatch({
+                type : WARNING_NOTIF,
+                payload : res.data
+            }))
+        
+            
+        
+        }
+        export const getInfo = ()=> dispatch =>{
+            dispatch(setNotifLoading());
+            axios
+            .get('/notif/InfoNotif')
+            .then(res =>
+                dispatch({
+                    type : INFO_NOTIF,
+                    payload : res.data
+                }))
+            
+                
+            
+            }
+            export const getDanger = ()=> dispatch =>{
+                dispatch(setNotifLoading());
+                axios
+                .get('/notif/DangerNotif')
+                .then(res =>
+                    dispatch({
+                        type : DANGER_NOTIF,
+                        payload : res.data
+                    }))
+                
+                    
+                
+                }
 export const getUncheked = ()=> dispatch =>{
     dispatch(setNotifLoading());
     axios

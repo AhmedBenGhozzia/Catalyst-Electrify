@@ -1,23 +1,26 @@
-
+import SuccsessModel from './SuccsessModel';
 import React, { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
-import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getNotif, deleteNotif, getUncheked } from '../actions/notifActions';
 import PropTypes, { array } from 'prop-types';
-import { MDBDataTable } from 'mdbreact';
 import CanvasJSReact from '../canvasjs.react';
+
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 
 
-
 class Notification extends Component {
+
+
+
+
+
+
   componentDidMount() {
-this.Success();
+    this.notify();
     this.props.getUncheked();
     
   }
@@ -26,35 +29,37 @@ this.Success();
 
   }
 
+   notify = () => toast("Welcome To Dashboard Notifications!", {
+    position: toast.POSITION.TOP_LEFT
+  });
 
-  Danger = () => toast.error("Error Notification !", {
+  Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_RIGHT,
   }, { autoClose: 15000 });
-  Success = () => toast.success("Success Notification !", {
-    position: toast.POSITION.TOP_CENTER
+  Success = (name) => toast.success( <i className="mdi mdi-alarm-light" >  {name}</i>, {
+    position: toast.POSITION.TOP_RIGHT
   }, { autoClose: 15000 });
 
-  Info = () => toast.info("Info Notification !", {
+  Info = (name) => toast.info( <i className="mdi mdi-information" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_CENTER
   }, { autoClose: 15000 });
-  Warning = () => toast.warn("Warning Notification !", {
+  Warning = (name) => toast.warn( <i className="mdi mdi-alert" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_LEFT
   }, { autoClose: 15000 });
 
-  notificationsTypes = (type2) => {
+  notificationsTypes = (type2 ,name) => {
     const type1 = { type: "Danger" };
     const type0 = { type: "Warning" };
-    const type3 = { type: "Sucess" };
+    const type3 = { type: "Success" };
     const type4 = { type: "Info" };
-
     if (JSON.stringify(type2) == JSON.stringify(type1)
     ) {
-      this.Danger();
+      this.Danger(name.name);
     }
     else if (JSON.stringify(type2) == JSON.stringify(type0)) {
-      this.Warning()
-    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(); }
-    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info() }
+      this.Warning(name.name);
+    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(name.name); }
+    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info(name.name) ;}
   }
 
 
@@ -73,6 +78,10 @@ this.Success();
     }
     return tab;
   }
+
+
+
+
   render() {
 
 
@@ -108,48 +117,85 @@ this.Success();
       rows: test1
     };
 
-
-    const options = {
+    const options2 = {
 			theme: "dark2",
 			animationEnabled: true,
-			exportFileName: "",
-			exportEnabled: true,
+			zoomEnabled: true,
 			title:{
-				text: "Notification Stats"
+				text: "Vente Prediction"
+			},
+			axisX: {
+				title:"Energy production",
+				suffix: "Wh",
+				crosshair: {
+					enabled: true,
+					snapToDataPoint: true
+				}
+			},
+			axisY:{
+				title: "Energy consumption",				suffix: "Wh",
+
+				includeZero: false,
+				crosshair: {
+					enabled: true,
+					snapToDataPoint: true
+				}
 			},
 			data: [{
-				type: "pie",
-				showInLegend: true,
-				legendText: "{label}",
-				toolTipContent: "{label}: <strong>{y}%</strong>",
-				indexLabel: "{y}%",
-				indexLabelPlacement: "inside",
-				dataPoints: [
-					{ y: 32, label: "Info " },
-					{ y: 22, label: "Sucess" },
-					{ y: 15, label: "Danger" },
-					{ y: 19, label: "Warning" }
-	
+				type: "scatter",
+				markerSize: 15,
+				toolTipContent: "<b>Energy production: </b>{x}<br/><b>Energy consumption: </b>{y} </b> sales : true",
+				dataPoints: [{ x: 14.2, y: 215},
+					{ x: 24, y: 20},
+          { x: 26, y: 10},
+					{ x: 22, y: 20},
+					{ x: 27, y:28},
+					{ x: 16, y: 10},
+					{ x: 12, y: 9},
+					{ x: 17, y:18},
+
+				
 				]
 			}]
 		}
+  
+    const options = {
+      theme: "dark2",
+      animationEnabled: true,
+      exportFileName: "",
+      exportEnabled: true,
+      title:{
+        text: "Notification Stats"
+      },
+      data: [{
+        type: "pie",
+        showInLegend: true,
+        legendText: "{label}",
+        toolTipContent: "{label}: <strong>{y}%</strong>",
+        indexLabel: "{y}%",
+        indexLabelPlacement: "inside",
+        dataPoints: [
+          { y: 32, label: "Info " ,color:"#2e7db9"},
+          { y: 22, label: "Sucess",color :"#009668" },
+          { y: 15, label: "Danger" ,color : "#b73f54"},
+          { y: 19, label: "Warning" ,color: "#c07a05" }
+                 
+        ]
+      }]
+    }
+  
     return (
   
-
       <div>
 
 
-            <div> <CanvasJSChart options = {options}/></div>
+{test1.map(({ name, type }) => (       
+  <p key={name}>{this.notificationsTypes({ type },{name})}
+
+     </p>
+))}
 
 
-
-
-
-            {test1.map(({ name, type }) => (       
-              <p key={name}>{this.notificationsTypes({ type })}
-
-                 </p>
-            ))}
 
 
         
@@ -477,7 +523,9 @@ this.Success();
                 <div className="row">
                
 
-
+                <CanvasJSChart options = {options2}
+				/* onRef={ref => this.chart = ref} */
+			/>
                 
                   <div className="col-12 grid-margin">
                     <div className="card">
@@ -485,11 +533,16 @@ this.Success();
 
                         <p className="card-description">
                         </p>
-                        
+                      
+
                         <div className="alert alert-success" role="alert">
-                          <i className="mdi mdi-alert-circle" />
+                          <i className="mdi mdi-alert-circle" />                        
+                        
                           Well done! You successfully read this important alert message.
+
                           </div>
+                       
+
                         <div className="alert alert-info" role="alert">
                           <i className="mdi mdi-alert-circle" />
                           Heads up! This alert needs your attention, but it's not super important.
@@ -505,9 +558,92 @@ this.Success();
                       </div>
                     </div>
                   </div>
-              
+                  <div>
+                   
+
+        <div className="row">
+          <div className="col-md-3 grid-margin stretch-card">
+            <div className="card border-0 border-radius-2 bg-success">
+              <div className="card-body">
+                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                  <div className="icon-rounded-inverse-success icon-rounded-lg">
+                    <i className="mdi mdi-alarm-light" />
+                  </div>
+                  <div className="text-white">
+                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
+                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Success </h3>
+                      <small className="mb-0"> <SuccsessModel/></small>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="col-md-3 grid-margin stretch-card">
+            <div className="card border-0 border-radius-2 bg-info">
+              <div className="card-body">
+                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                  <div className="icon-rounded-inverse-info icon-rounded-lg">
+                    <i className="mdi mdi-information" />
+                  </div>
+                  <div className="text-white">
+                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
+                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Info</h3>
+                      <small className="mb-0">This month</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 grid-margin stretch-card">
+            <div className="card border-0 border-radius-2 bg-danger">
+              <div className="card-body">
+                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                  <div className="icon-rounded-inverse-danger icon-rounded-lg">
+                    <i className="mdi mdi-alert-circle" />
+                  </div>
+                  <div className="text-white">
+                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
+                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Danger</h3>
+                      <small className="mb-0">This month</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-3 grid-margin stretch-card">
+            <div className="card border-0 border-radius-2 bg-warning">
+              <div className="card-body">
+                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                  <div className="icon-rounded-inverse-warning icon-rounded-lg">
+                    <i className="mdi mdi-alert" />
+                  </div>
+                  <div className="text-white">
+                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
+                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Warning</h3>
+                      <small className="mb-0">This month</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        <div> <CanvasJSChart options = {options}/></div>
+
+
+    </div>
+
+</div>
+</div>
+
               {/* content-wrapper ends */}
               {/* partial:../../partials/_footer.html */}
               <footer className="footer">

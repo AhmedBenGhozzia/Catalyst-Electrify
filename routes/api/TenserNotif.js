@@ -2,44 +2,60 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 const tf = require('@tensorflow/tfjs')
-var content = fs.readFileSync('weather.json');
+var content = fs.readFileSync('myjsonfile.json');
 var weather = JSON.parse(content);
 var content1 = fs.readFileSync('predict.json');
 var predictData = JSON.parse(content1);
+const DataNotification = require('../../models/DataNotification');
+var obj =[];
+
+router.get('/test',(req,res)=>{
+  DataNotification.find(function(err, data){
+    if(err){            
+        console.log(err);
+    }
+    obj= data;
+    var json = 
+    res.json(data);
+    fs.writeFile('myjsonfile.json', JSON.stringify(obj), 'utf8');
 
 
+})   
+
+
+});
 const trainData = tf.tensor2d(weather.map(item => [
-  item.energy,
-  item.consomation
+  item.Consomation,
+  item.Production
 
 ]))
 
 const outputData = tf.tensor2d(weather.map(item => [
-  item.vente
+  item.Vente
 ]))
 
 const testingData = tf.tensor2d(predictData.map(item => [
-  item.energy,
-  item.consomation
+  item.Consomation,
+  item.Production
 ]))
 
 const model = tf.sequential()
 
 model.add(tf.layers.dense({
   inputShape: [2],
-  activation: "sigmoid",
-  units: 4
+  activation: "linear",
+  units: 6
 }))
 
 model.add(tf.layers.dense({
-  inputShape: [4],
-  activation: "sigmoid",
+  inputShape: [6],
+  activation: "linear",
   units: 1
 })) 
 
 
 model.add(tf.layers.dense({
-  activation: "sigmoid",
+  activation: "linear",
   units: 1
 }))
 

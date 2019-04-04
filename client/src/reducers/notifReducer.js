@@ -1,6 +1,7 @@
-import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF} from '../actions/types'
+import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from '../actions/types'
 const inisialState ={
     Notifications :[],
+    NotificationStatus :[],
     loading : false
 }
 
@@ -28,6 +29,30 @@ switch (action.type){
        loading : true
     }
     case UNCHECKED_NOTIF :
+    return {...state,
+    Notifications :action.payload,
+    loading: false
+    
+    }
+    case SUCCESS_NOTIF :
+    return {...state,
+        NotificationStatus :action.payload,
+    loading: false
+    
+    }  
+    case WARNING_NOTIF :
+    return {...state,
+    Notifications :action.payload,
+    loading: false
+    
+    } 
+     case DANGER_NOTIF :
+    return {...state,
+    Notifications :action.payload,
+    loading: false
+    
+    }  
+    case INFO_NOTIF :
     return {...state,
     Notifications :action.payload,
     loading: false

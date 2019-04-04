@@ -1,17 +1,1 @@
-[
-    {
-       "consomation":10,
-        "energy": 500
-    },
-    {
-        "consomation":200,
-         "energy": 500
-
-     }, {
-        "consomation":50,
-         "energy": 500
-     }, {
-        "consomation":150,
-         "energy": 500
-     }
-]
+[{"Consomation":40,"Production":500}]
