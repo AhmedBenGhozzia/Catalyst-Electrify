@@ -15,6 +15,8 @@ import "./iconfonts/mdi/font/css/materialdesignicons.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
+import ListSmart from './components/ListSmart';
+import ItemModal from './components/ItemModal';
 import { Provider } from 'react-redux';
 import Notification from "./components/Notification"
 import Login from './components/auth/Login';
@@ -24,6 +26,7 @@ class App extends Component {
     store.dispatch(loadUser());
   }
 
+  
   render() {
     return (
 
