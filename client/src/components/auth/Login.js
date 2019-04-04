@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register } from '../../actions/authActions';
+import { login } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
-class Register extends Component {
+class Login extends Component {
 
     state = {
         username: '',
-        email: '',
         password: '',
         msg: null
     };
@@ -16,16 +15,16 @@ class Register extends Component {
     static propTypes = {
         isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
-        register: PropTypes.func.isRequired,
+        login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
-    };
+    };  
 
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
         if (error !== prevProps.error) {
-            // Check for register error
-            if (error.id === 'REGISTER_FAIL') {
-                this.setState({ msg: error.msg.message });
+            // Check for login error
+            if (error.id === 'LOGIN_FAIL') {
+                this.setState({ msg: error.msg });
             } else {
                 this.setState({ msg: null });
             }
@@ -45,17 +44,16 @@ class Register extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        const { username, email, password } = this.state;
+        const { username, password } = this.state;
 
         // Create user object
-        const newUser = {
+        const user = {
             username,
-            email,
             password
         };
 
-        // Attempt to register
-        this.props.register(newUser);
+        // Attempt to login
+        this.props.login(user);
     };
 
 
@@ -70,13 +68,13 @@ class Register extends Component {
                                     <div className="brand-logo">
                                         <img src="http://www.urbanui.com/fily/template/images/logo-black.svg" alt="logo" />
                                     </div>
-                                    <h4>New here?</h4>
-                                    <h6 className="font-weight-light">Join us today! It takes only few steps</h6>
+                                    <h4>Welcome back!</h4>
+                                    <h6 className="font-weight-light">Happy to see you again!</h6>
                                     {/*alert*/}
                                     {this.state.msg ? <div className="alert alert-danger" role="alert">{this.state.msg}</div> : null}
                                     <form className="pt-3" onSubmit={this.onSubmit}>
                                         <div className="form-group">
-                                            <label>Username</label>
+                                            <label htmlFor="username">Username</label>
                                             <div className="input-group">
                                                 <div className="input-group-prepend bg-transparent">
                                                     <span className="input-group-text bg-transparent border-right-0">
@@ -87,18 +85,7 @@ class Register extends Component {
                                             </div>
                                         </div>
                                         <div className="form-group">
-                                            <label>Email</label>
-                                            <div className="input-group">
-                                                <div className="input-group-prepend bg-transparent">
-                                                    <span className="input-group-text bg-transparent border-right-0">
-                                                        <i className="mdi mdi-email-outline text-primary" />
-                                                    </span>
-                                                </div>
-                                                <input type="email" className="form-control form-control-lg border-left-0" id="email" name="email" onChange={this.onChange} placeholder="Email" />
-                                            </div>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Password</label>
+                                            <label htmlFor="password">Password</label>
                                             <div className="input-group">
                                                 <div className="input-group-prepend bg-transparent">
                                                     <span className="input-group-text bg-transparent border-right-0">
@@ -108,25 +95,27 @@ class Register extends Component {
                                                 <input type="password" className="form-control form-control-lg border-left-0" id="password" name="password" onChange={this.onChange} placeholder="Password" />
                                             </div>
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="my-2 d-flex justify-content-between align-items-center">
                                             <div className="form-check">
                                                 <label className="form-check-label text-muted">
                                                     <input type="checkbox" className="form-check-input" />
-                                                    I agree to all Terms &amp; Conditions
+                                                    Keep me signed in
                     <i className="input-helper" /></label>
                                             </div>
+                                            <a href="#" className="auth-link text-black">Forgot password?</a>
                                         </div>
-                                        <div className="mt-3">
-                                            <button type="submit" className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" >SIGN UP</button>
+                                        <div className="my-3">
+                                            <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">LOGIN</button>
                                         </div>
+
                                         <div className="text-center mt-4 font-weight-light">
-                                            Already have an account? <a href="/login" className="text-primary">Login</a>
+                                            Don't have an account? <a href="register-2.html" className="text-primary">Create</a>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <div className="col-lg-6 register-half-bg d-flex flex-row">
-                                <p className="text-white font-weight-medium text-center flex-grow align-self-end">Copyright © 2019  All rights reserved.</p>
+                            <div className="col-lg-6 login-half-bg d-flex flex-row">
+                                <p className="text-white font-weight-medium text-center flex-grow align-self-end">Copyright © 2018  All rights reserved.</p>
                             </div>
                         </div>
                     </div>
@@ -146,5 +135,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { register, clearErrors }
-)(Register);
+    { login, clearErrors }
+)(Login);
