@@ -6,6 +6,7 @@ import SideBar from "./SideBar";
 import Dashboard from "./Dashboard";
 import CatalystDetails from "./CatalystDetails";
 
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 export default class Home extends Component {
