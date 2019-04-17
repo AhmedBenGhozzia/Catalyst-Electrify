@@ -7,7 +7,10 @@ export default combineReducers({
     auth: authReducer,
     error: errorReducer,
     notif : notifReducer,
-    notifStatus : notifReducer
+    notifStatus : notifReducer,
+
+
+
 
 
 

@@ -13,6 +13,8 @@ const DataNotificationSchema = new Schema({
  Vente: {
     type: Boolean,
     default: false
+  },idUser: {
+    type: String,
   }
   
 });
