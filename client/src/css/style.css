@@ -14541,6 +14541,7 @@ button.close {
 
 .modal-open {
   overflow: hidden;
+
 }
 
 .modal {
@@ -14561,6 +14562,7 @@ button.close {
 }
 
 .modal-dialog {
+
   position: relative;
   width: auto;
   margin: 10px;
@@ -14594,7 +14596,7 @@ button.close {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #323748;
+  background-color: #ffffff;
   background-clip: padding-box;
   border: 1px solid #2a2c40;
   border-radius: 0.3rem;
@@ -28972,5 +28974,9 @@ div.tagsinput span.tag a {
     display: none;
   }
 }
-
+.my-modal {
+  background-color: #fefefe;
+    width: 90vw  ;  /* Occupy the 90% of the screen width */
+    max-width: 90vw;
+  } 
 /*# sourceMappingURL=../maps/vertical-layout-dark/style.css.map */

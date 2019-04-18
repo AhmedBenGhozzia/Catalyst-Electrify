@@ -13,46 +13,27 @@ import "./iconfonts/mdi/font/css/materialdesignicons.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
+import ListSmart from './components/ListSmart';
+import ItemModal from './components/ItemModal';
 import { Provider } from 'react-redux';
+import Notification from "./components/Notification"
 import Login from './components/auth/Login';
-import Setting from "./components/Settings";
-import SideBar from "./components/SideBar";
-import Dashboard from "./components/Dashboard";
-
 class App extends Component {
 
   componentDidMount() {
     store.dispatch(loadUser());
   }
 
+  
   render() {
     return (
 
       <Provider store={store}>
+
         <Router>
           <Switch>
-            <Route exact path="/">
-              <div className="container-scroller">
-                <NavBar />
-                <div className="container-fluid page-body-wrapper">
-                  <Setting />
-                  <SideBar />
-                  <div className="main-panel">
-                    <div className="content-wrapper">
-                      <Router>
-                        <Switch>
-                          <Route exact path="/" component={Dashboard} />
-                          <Route
-                            path="/contract/:address"
-                            component={CatalystDetails}
-                          />
-                        </Switch>
-                      </Router>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Route>
+            <Route exact path="/" component={Home} />
+            <Route path ="/notifications" component={Notification}/>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
             <Route component={NotFound} />
