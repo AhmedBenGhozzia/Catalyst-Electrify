@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import Setting from "./components/Settings";
-import SideBar from "./components/SideBar";
 
 import store from './store';
 import { loadUser } from './actions/authActions'
@@ -17,6 +15,9 @@ import NotFound from "./components/NotFound";
 import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
 import Login from './components/auth/Login';
+import Setting from "./components/Settings";
+import SideBar from "./components/SideBar";
+import Dashboard from "./components/Dashboard";
 
 class App extends Component {
 
@@ -30,9 +31,30 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/">
+              <div className="container-scroller">
+                <NavBar />
+                <div className="container-fluid page-body-wrapper">
+                  <Setting />
+                  <SideBar />
+                  <div className="main-panel">
+                    <div className="content-wrapper">
+                      <Router>
+                        <Switch>
+                          <Route exact path="/" component={Dashboard} />
+                          <Route
+                            path="/contract/:address"
+                            component={CatalystDetails}
+                          />
+                        </Switch>
+                      </Router>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Route>
             <Route path="/register" component={Register} />
-            <Route path="/login" component={Login}/>
+            <Route path="/login" component={Login} />
             <Route component={NotFound} />
           </Switch>
         </Router>
