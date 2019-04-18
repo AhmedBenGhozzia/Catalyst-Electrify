@@ -12,6 +12,7 @@ const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
 const DataNotification = require('./routes/api/DataNotificationRoute');
 const tenserNotif = require('./routes/api/TenserNotif');
+const push = require('./routes/api/push');
 const config = require('config');
 var app = express();
 var cors = require('cors')
@@ -52,6 +53,7 @@ app.use('../Catalyst-Electrify/loop.js',setInterval);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
 app.use('/n',tenserNotif);
+app.use('/push',push);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
