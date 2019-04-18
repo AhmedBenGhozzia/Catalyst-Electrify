@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import Setting from "./components/Settings";
-import SideBar from "./components/SideBar";
 
 import store from './store';
 import { loadUser } from './actions/authActions'
@@ -37,7 +35,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route path ="/notifications" component={Notification}/>
             <Route path="/register" component={Register} />
-            <Route path="/login" component={Login}/>
+            <Route path="/login" component={Login} />
             <Route component={NotFound} />
           </Switch>
         </Router>

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tensorflow/tfjs": "^1.0.3",
+    "@tensorflow/tfjs-node": "^1.0.3",
     "axios": "^0.18.0",
     "bcrypt-nodejs": "0.0.3",
     "chart.js": "^2.8.0",

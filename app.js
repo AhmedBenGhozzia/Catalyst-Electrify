@@ -6,6 +6,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const User = require('./routes/api/UserRoute');
+const predict = require('./routes/api/PredictRoute');
 const SmartHub = require('./routes/api/SmartHubRoutes');
 const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
@@ -44,13 +45,13 @@ app.use(cors())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/user',User);
+app.use('/api/predict',predict);
 app.use('/api/SmartHub',SmartHub);
 app.use('/api/ProdCons',ProdCons);
 app.use('../Catalyst-Electrify/loop.js',setInterval);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
 app.use('/n',tenserNotif);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
