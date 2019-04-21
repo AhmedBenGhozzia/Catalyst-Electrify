@@ -63,7 +63,7 @@ model.compile({
     optimizer: tf.train.adam(.06),
 })
 
-model.fit(trainData, outputData, { epochs: 100, shuffle: true}).then((history) => console.log(history))
+//model.fit(trainData, outputData, { epochs: 100, shuffle: true}).then((history) => console.log(history))
 
 router.get('/', function (req, res, next) {
     res.send(model.predict(testingData).dataSync())
