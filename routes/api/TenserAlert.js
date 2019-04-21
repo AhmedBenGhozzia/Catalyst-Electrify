@@ -1,6 +1,9 @@
 var express = require('express');
+
 var router = express.Router();
 var fs = require('fs');
+var dateFormat = require('dateformat');
+
 const tf = require('@tensorflow/tfjs')
 var content = fs.readFileSync('myjsonfile.json');
 var weather = JSON.parse(content);
@@ -8,13 +11,21 @@ var content1 = fs.readFileSync('predict.json');
 var predictData = JSON.parse(content1);
 const DataNotification = require('../../models/DataNotification');
 var obj =[];
-
-router.get('/VenteAlert',(req,res)=>{
+var obj2 =[];
+router.get('/NotifAlert',(req,res)=>{
   DataNotification.find(function(err, data){
     if(err){            
         console.log(err);
     }
     obj= data;
+
+    obj.forEach( function(data){    var date =dateFormat(data.date,"HH:MM:ss") ;
+    var date2 =dateFormat("2019-04-19T17:31:43.021Z","HH:MM:ss") ;     
+       console.log(date<date2);
+
+
+    })
+    
     var json = 
     res.json(data);
     fs.writeFile('myjsonfile.json', JSON.stringify(obj), 'utf8');

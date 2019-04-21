@@ -14,19 +14,20 @@ import NavBar from "./NavBar";
 import Setting from "./Settings";
 import SideBar from "./SideBar";
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
+var users= {};
 
 
 class Notification extends Component {
 
+  constructor(props) {
+    super(props);
 
+  }
 
-
-
-
-  componentDidMount() {
+ async  componentDidMount() {
+      this.props.getUncheked("5c94ffd05cdd3d504caf6e30");
     this.notify();
-    this.props.getUncheked();
+
     
   }
   onDeleteClick = (id) => {
@@ -90,6 +91,7 @@ class Notification extends Component {
   render() {
 
 
+    console.log(this.props.user); 
 
 
 
@@ -157,6 +159,7 @@ class Notification extends Component {
         <div className="main-panel">
           <div className="content-wrapper">
           <div>
+
 
 
 {test1.map(({ name, type }) => (       
@@ -647,12 +650,14 @@ class Notification extends Component {
 Notification.propTypes = {
   getNotif: PropTypes.func.isRequired,
   getUncheked: PropTypes.func.isRequired,
-  notif: PropTypes.object.isRequired
+  notif: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 
 }
 const mapStateToProps = (state) => ({
 
-  notif: state.notif
+  notif: state.notif,
+  user :state.auth.user
 
 
 });

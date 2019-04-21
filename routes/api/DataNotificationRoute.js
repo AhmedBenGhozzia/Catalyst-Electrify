@@ -15,7 +15,9 @@ router.post('/',(req,res)=>{
 const newDataNotification= new DataNotification({
     Consomation : req.body.Consomation,
     Production :req.body.Production ,
-    Vente : req.body.Vente
+    Vente : req.body.Vente,
+    Prix : req.body.Prix,
+    idUser : req.body.idUser
 
 }); 
 newDataNotification.save().then(DataNotification=>res.json(DataNotification));

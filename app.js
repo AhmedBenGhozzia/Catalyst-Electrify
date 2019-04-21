@@ -9,6 +9,8 @@ const User = require('./routes/api/UserRoute');
 const Notif = require('./routes/api/NotificationRoute');
 const DataNotification = require('./routes/api/DataNotificationRoute');
 const tenserNotif = require('./routes/api/TenserNotif');
+const AlertNotif = require('./routes/api/TenserAlert');
+
 const push = require('./routes/api/push');
 
 const config = require('config');
@@ -46,7 +48,8 @@ app.use('/users', usersRouter);
 app.use('/api/user',User);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
-app.use('/n',tenserNotif);
+app.use('/VenteNotif',tenserNotif);
+app.use('/AlertNotif',AlertNotif);
 
 app.use('/push',push);
 
