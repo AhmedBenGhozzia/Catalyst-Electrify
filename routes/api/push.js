@@ -23,11 +23,11 @@ const testData = {
     subscription = req.body
     console.log(subscription)
     res.sendStatus(201)
-    pushIntervalID = setInterval(() => {
+    pushIntervalID = 
       // sendNotification can only take a string as it's second parameter
       webpush.sendNotification(subscription, JSON.stringify(testData))
         .catch(() => clearInterval(pushIntervalID))
-    },86400000)
+   
   })
   
   router.delete("/unregister", (req, res, next) => {

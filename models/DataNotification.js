@@ -10,13 +10,20 @@ const DataNotificationSchema = new Schema({
     type: Number
 
   },
+  Prix: {
+    type: Number
+
+  },
  Vente: {
     type: Boolean,
     default: false
   },idUser: {
     type: String,
-  }
-  
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
 });
 
 module.exports = notification = mongoose.model('DataNotification', DataNotificationSchema);

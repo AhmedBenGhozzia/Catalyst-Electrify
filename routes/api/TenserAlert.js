@@ -1,6 +1,9 @@
 var express = require('express');
+
 var router = express.Router();
 var fs = require('fs');
+var dateFormat = require('dateformat');
+
 const tf = require('@tensorflow/tfjs')
 var content = fs.readFileSync('myjsonfile.json');
 var weather = JSON.parse(content);
@@ -8,16 +11,45 @@ var content1 = fs.readFileSync('predict.json');
 var predictData = JSON.parse(content1);
 const DataNotification = require('../../models/DataNotification');
 var obj =[];
-
-router.get('/VenteAlert',(req,res)=>{
-  DataNotification.find(function(err, data){
+var obj2 =[];
+router.get('/NotifAlert/:id',(req,res)=>{
+  DataNotification.find({idUser :req.params.id} ,function(err, data){
     if(err){            
         console.log(err);
     }
     obj= data;
+
+    obj.forEach( function(data){    var date =dateFormat(data.date,"HH") ;
+    var today = new Date();
+    var date2 =dateFormat(today,"HH") ;     
+    var date3 =dateFormat("2019-04-19T18:00:43.021Z","HH:MM:ss") ;  
+
+   
+if (date==01){
+ date = 23; 
+}
+else{date =date -2}
+
+if (date<17 && date2<=17){
+
+
+
+  obj2.push(data);
+
+
+}if (date>17 && date2>=17){
+
+
+
+  obj2.push(data);
+
+
+}
+    })
+    
     var json = 
     res.json(data);
-    fs.writeFile('myjsonfile.json', JSON.stringify(obj), 'utf8');
+    fs.writeFile('myjsonfile.json', JSON.stringify(obj2), 'utf8');
 
 
 })   
@@ -48,7 +80,7 @@ model.add(tf.layers.dense({
 }))
 
 model.add(tf.layers.dense({
-  inputShape: [6],
+  inputShape: [280],
   activation: "linear",
   units: 1
 })) 
@@ -70,7 +102,6 @@ const data = tf.tensor([1,2,3,4]);
 router.get('/predict',function (req, res, next){
 
 data.print();
-
 
   res.send(model.predict(testingData).dataSync())
 })

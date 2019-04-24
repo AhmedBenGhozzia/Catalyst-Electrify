@@ -12,6 +12,13 @@ const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
 const DataNotification = require('./routes/api/DataNotificationRoute');
 const tenserNotif = require('./routes/api/TenserNotif');
+const AlertNotif = require('./routes/api/TenserAlert');
+var cron = require('node-cron');
+const axios = require('axios')
+const ProdConsModel = require('./models/ProdCons');
+var request = require('request');
+var dateFormat = require('dateformat');
+
 const push = require('./routes/api/push');
 const config = require('config');
 var app = express();
@@ -85,6 +92,8 @@ app.use('/api/ProdCons',ProdCons);
 app.use('../Catalyst-Electrify/loop.js',setInterval);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
+app.use('/VenteNotif',tenserNotif);
+app.use('/AlertNotif',AlertNotif);
 app.use('/n',tenserNotif);
 app.use('/push',push);
 
@@ -100,10 +109,70 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
+app.use('/push',push);
+var production_heure ={};
+var consomation_heure ={};
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+var task = cron.schedule('*/1 * * * *', () =>  {
+  Date.prototype.lesshour= function(){
+    this.setHours(this.getHours()-1);
+    return this;
+}
+
+  ProdConsModel.find(function(err, data){
+    if(err){            
+        console.log(err);
+    }
+    obj= data;
+    var today = new Date();
+today.setHours(today.getHours()-1 );
+    var date3 =dateFormat(today,"UTC:yyyy-mm-dd'T'HH:MM:ss'Z") ;     
+    function dateCompare(date1, date2){
+      return new Date(date2) > new Date(date1);
+  }
+console.log(today),
+    obj.forEach( function(data){  
+
+     if (dateCompare(today,data.date)){
+      production_heure=data.Prod_hourly;
+      consomation_heure= data.Cons_hourly;
+      request({
+        url: "http://localhost:5000/DataNotification",
+        method: "POST",
+        timeout: 10000,
+        followRedirect: true,
+        maxRedirects: 10,
+        json:true,
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body: { 
+          Consomation:Number(consomation_heure),Production:Number(production_heure),Prix:100,idUser:"5c94ffd05cdd3d504caf6e30"
+        }
+  });
+
+}
+    })
+   
+    console.log(production_heure) ;
+    console.log(consomation_heure) ;
+
+
+
+
+
+
+})  
+
+  console.log('stoped task');
+}, {
+  scheduled: false
+});
+ 
+task.start()
 
 // error handler
 app.use(function(err, req, res, next) {
