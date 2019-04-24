@@ -52,7 +52,6 @@ const getApiAndEmit = async socket => {
   }
 };
 
-server.listen(45780);
 /**
  * Mongo in Mlab
  */
@@ -79,6 +78,16 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
+app.use('/api/user',User);
+app.use('/api/predict',predict);
+app.use('/api/SmartHub',SmartHub);
+app.use('/api/ProdCons',ProdCons);
+app.use('../Catalyst-Electrify/loop.js',setInterval);
+app.use('/notif',Notif);
+app.use('/DataNotification',DataNotification);
+app.use('/n',tenserNotif);
+app.use('/push',push);
+
 if(process.env.NODE_ENV === 'production'){
   app.use(express.static('client/build'));
 
@@ -89,15 +98,7 @@ if(process.env.NODE_ENV === 'production'){
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/user',User);
-app.use('/api/predict',predict);
-app.use('/api/SmartHub',SmartHub);
-app.use('/api/ProdCons',ProdCons);
-app.use('../Catalyst-Electrify/loop.js',setInterval);
-app.use('/notif',Notif);
-app.use('/DataNotification',DataNotification);
-app.use('/n',tenserNotif);
-app.use('/push',push);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -115,8 +116,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(9000, function(){
-  console.log('app listening on port 9000 for real time data!')
-});
 
 module.exports = app;
