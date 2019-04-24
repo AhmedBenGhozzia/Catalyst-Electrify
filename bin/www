@@ -20,6 +20,20 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+const io = require('socket.io')(server);
+io.on('connection', client => {
+  console.log("Socket io is working")
+  client.on('data', data => { 
+    console.log(data) 
+    io.emit('data', data)
+  });
+  client.on('state', err => {
+    io.emit('state', err)
+    console.log(err)
+  });
+  
+
+});
 
 /**
  * Listen on provided port, on all network interfaces.
