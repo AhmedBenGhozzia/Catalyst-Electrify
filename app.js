@@ -6,6 +6,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const User = require('./routes/api/UserRoute');
+const predict = require('./routes/api/PredictRoute');
 const SmartHub = require('./routes/api/SmartHubRoutes');
 const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
@@ -22,6 +23,41 @@ const push = require('./routes/api/push');
 const config = require('config');
 var app = express();
 var cors = require('cors')
+
+var http = require('http');
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '766424',
+  key: '1036a9abd7d298e83d48',
+  secret: '360c2ce84c26c4389df1',
+  cluster: 'eu',
+  encrypted: true
+});
+
+const socketIo = require("socket.io");
+const axios = require("axios");
+const server = http.createServer(app);
+const io = socketIo(server);
+
+io.on("connection", socket => {
+  console.log("New client connected"), setInterval(
+    () => getApiAndEmit(socket),
+    10000
+  );
+  socket.on("disconnect", () => console.log("Client disconnected"));
+});
+const getApiAndEmit = async socket => {
+  try {
+    const res = await axios.get(
+      "http://localhost:5000/api/ProdCons"
+    );
+    socket.emit("From db", res.data);
+    console.log(res.data)
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
 
 /**
  * Mongo in Mlab
@@ -46,12 +82,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/api/user',User);
+app.use('/api/predict',predict);
 app.use('/api/SmartHub',SmartHub);
 app.use('/api/ProdCons',ProdCons);
 app.use('../Catalyst-Electrify/loop.js',setInterval);
@@ -59,6 +94,20 @@ app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
 app.use('/VenteNotif',tenserNotif);
 app.use('/AlertNotif',AlertNotif);
+app.use('/n',tenserNotif);
+app.use('/push',push);
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'));
+
+  app.get('*', (req,res)=>{
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 
 app.use('/push',push);
 var production_heure ={};
@@ -135,5 +184,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

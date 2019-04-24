@@ -14,6 +14,8 @@ import del from './ListSmart';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ItemModal from './ItemModal';
 import ToExcel from './ExportExcel';
+import Battery from './Battery'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 var request = require('request');
 
 
@@ -24,7 +26,8 @@ var request = require('request');
         super(props);
         this.state= {
             smartHubs : [],
-            serialNumber : 0
+            serialNumber : 0,
+            now: 80
         }
     }
 
@@ -126,6 +129,7 @@ var request = require('request');
                 }
             }
     ]
+
         return(
 
             <div className="container-scroller">
@@ -158,7 +162,15 @@ var request = require('request');
 
                             </ReactTable>
                         </div>
-
+                        <div style={{backgroundColor :'#222840'}}>
+                        <h3 style={{color:'blue',textAlign:'center'}}>SmartHubs average battery storage (Total capacity is 14Kwatts)</h3>
+                        </div>
+                        <div style={{textAlign:'center',backgroundColor :'#222840'}}>
+                        <div style={{ width: '300px',height:'350px', display: 'inline-block' }}>
+                        
+                        <ProgressBar striped variant="success" now={this.state.now} label={`${this.state.now}%`} />
+                        </div>
+                        </div>        
                         <div className="content-wrapper">
                             <Router>
                                 <Switch>
@@ -166,7 +178,7 @@ var request = require('request');
                                 </Switch>
                             </Router>
                         </div>
-
+                        
                     </div>
                 </div>
             </div>

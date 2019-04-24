@@ -1,6 +1,6 @@
 import SuccsessModel from './SuccsessModel';
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
@@ -72,9 +72,7 @@ this.state =  {user : null}
 
   }
 
-   notify = () => toast("Welcome To Dashboard Notifications!", {
-    position: toast.POSITION.TOP_LEFT
-  });
+   
 
   Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_RIGHT,
@@ -138,28 +136,7 @@ this.state =  {user : null}
     const { Notifications } = this.props.notif;
     console.log(Notifications);
     let test1 = this.List(Notifications);
-    const data = {
-      columns: [
-
-        {
-          label: 'Content',
-          field: 'Content',
-          sort: 'asc',
-          width: 200
-        },
-        {
-          label: 'Type',
-          field: 'Type',
-          sort: 'asc',
-          width: 100
-        }
-
-
-
-      ],
-
-      rows: test1
-    };
+    
 
  
     const options = {
@@ -188,6 +165,7 @@ this.state =  {user : null}
     }
   
     return (
+
       <div className="container-scroller">
       <NavBar />
       <div className="container-fluid page-body-wrapper">
@@ -673,10 +651,11 @@ this.state =  {user : null}
 
       </div>
           </div>
+
         </div>
       </div>
     </div>
-     
+
     );
   }
 

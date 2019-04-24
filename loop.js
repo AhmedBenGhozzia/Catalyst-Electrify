@@ -1,6 +1,6 @@
 var http = require('http');
 var request = require('request');
-const smarthub= require('../Catalyst-Electrify/models/smartHub');
+const smarthub= require('./models/smartHub');
 
 
   
@@ -8,7 +8,7 @@ var requestLoop = setInterval(function(){
     var l;
     request('http://localhost:5000/api/smarthub', { json: true, async: false }, (err, res, body) => {
         if (err) { return console.log(err); }
-         l=body.length;
+         l=(body.length)-1;
          var i;
     for (i=1; i<l+1 ; i++) {
     request({
