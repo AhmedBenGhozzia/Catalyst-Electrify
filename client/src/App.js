@@ -20,6 +20,14 @@ import ItemModal from './components/ItemModal';
 import { Provider } from 'react-redux';
 import Notification from "./components/Notification"
 import Login from './components/auth/Login';
+import ChartTemp from './components/ChartTemp';
+import ProdChart from './components/ProdChart';
+import TimeProd from './components/TimeProd';
+import DataTable from './components/DataTableSmart';
+import Maps from './components/Map';
+import RtChart from './components/RtChart';
+import Battery from './components/Battery';
+import Spinners from './components/Spinners'
 class App extends Component {
 
   componentDidMount() {
@@ -38,6 +46,14 @@ class App extends Component {
             <Route path ="/notifications" component={Notification}/>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login}/>
+            <Route path="/DataTable" component={DataTable}/>
+            <Route path="/ProdChart" component={ProdChart}/>
+            <Route path="/TimeProd" component={TimeProd}/>
+            <Route path="/ChartTemp" component={ChartTemp}/>
+            <Route path="/Maps" component={Maps}/>
+            <Route path="/RtChart" component={RtChart}/>
+            <Route path="/Battery" component={Battery}/>
+            <Route path="/Spinners" component={Spinners}/>
             <Route component={NotFound} />
           </Switch>
         </Router>

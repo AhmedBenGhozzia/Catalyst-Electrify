@@ -1,12 +1,15 @@
 import SuccsessModel from './SuccsessModel';
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
 import { getNotif, deleteNotif, getUncheked } from '../actions/notifActions';
 import PropTypes, { array } from 'prop-types';
 import CanvasJSReact from '../canvasjs.react';
+import NavBar from "./NavBar";
+import Setting from "./Settings";
+import SideBar from "./SideBar";
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -18,7 +21,9 @@ class Notification extends Component {
 
 
 
-
+  notify = () => toast("Welcome To Dashboard Notifications!", {
+    position: toast.POSITION.TOP_CENTER
+  });
   componentDidMount() {
     this.notify();
     this.props.getUncheked();
@@ -29,9 +34,7 @@ class Notification extends Component {
 
   }
 
-   notify = () => toast("Welcome To Dashboard Notifications!", {
-    position: toast.POSITION.TOP_LEFT
-  });
+   
 
   Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_RIGHT,
@@ -94,28 +97,7 @@ class Notification extends Component {
     const { Notifications } = this.props.notif;
     console.log(Notifications);
     let test1 = this.List(Notifications);
-    const data = {
-      columns: [
-
-        {
-          label: 'Content',
-          field: 'Content',
-          sort: 'asc',
-          width: 200
-        },
-        {
-          label: 'Type',
-          field: 'Type',
-          sort: 'asc',
-          width: 100
-        }
-
-
-
-      ],
-
-      rows: test1
-    };
+    
 
     const options2 = {
 			theme: "dark2",
@@ -186,6 +168,13 @@ class Notification extends Component {
   
     return (
   
+      <div className="container-scroller">
+      <NavBar />
+      <div className="container-fluid page-body-wrapper">
+          <Setting />
+          <SideBar />
+          <div className="main-panel">
+              
       <div>
 
 
@@ -662,6 +651,9 @@ class Notification extends Component {
 
 
       </div>
+          </div>
+      </div>
+  </div>
     );
   }
 

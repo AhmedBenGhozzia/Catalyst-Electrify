@@ -52,7 +52,7 @@ export default class Dashboard extends Component {
         <h1>Dashboard</h1>
         {this.renderCata()}
 
-        <Message error header="Oops!" content={this.state.errorMessage} />
+       
 
         <Button primary loading={this.state.loading} onClick={this.handleClick}>
           Create!

@@ -15,6 +15,42 @@ const config = require('config');
 var app = express();
 var cors = require('cors')
 
+var http = require('http');
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '766424',
+  key: '1036a9abd7d298e83d48',
+  secret: '360c2ce84c26c4389df1',
+  cluster: 'eu',
+  encrypted: true
+});
+
+const socketIo = require("socket.io");
+const axios = require("axios");
+const server = http.createServer(app);
+const io = socketIo(server);
+
+io.on("connection", socket => {
+  console.log("New client connected"), setInterval(
+    () => getApiAndEmit(socket),
+    10000
+  );
+  socket.on("disconnect", () => console.log("Client disconnected"));
+});
+const getApiAndEmit = async socket => {
+  try {
+    const res = await axios.get(
+      "http://localhost:5000/api/ProdCons"
+    );
+    socket.emit("From db", res.data);
+    console.log(res.data)
+  } catch (error) {
+    console.error(`Error: ${error.code}`);
+  }
+};
+
+server.listen(45780);
 /**
  * Mongo in Mlab
  */
@@ -66,6 +102,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(9000, function(){
+  console.log('app listening on port 9000 for real time data!')
 });
 
 module.exports = app;

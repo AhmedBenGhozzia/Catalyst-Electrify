@@ -7,3 +7,17 @@
 
 .t{background-color: white}
 
+#map {
+    height: 100vh;
+}
+
+.hello {
+    position: absolute;
+    margin-top: 30%;
+    margin-left: 50%;
+}
+
+.tempDiv {
+    position: absolute;
+    margin-left: 30%
+}

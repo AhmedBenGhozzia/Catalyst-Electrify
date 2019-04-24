@@ -22,3 +22,4 @@ export const SUCCESS_NOTIF= 'SUCCESS_NOTIF';
 export const WARNING_NOTIF= 'WARNING_NOTIF';
 export const INFO_NOTIF= 'INFO_NOTIF';
 export const DANGER_NOTIF= 'DANGER_NOTIF';
+export const GET_COORD = 'GET_COORD';

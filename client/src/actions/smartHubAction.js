@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_SMARTHUB, smartHubLoading, ADD_ITEM, DELETE_ITEM } from './types';
+import { GET_SMARTHUB, smartHubLoading, ADD_ITEM, DELETE_ITEM, GET_COORD } from './types';
 import {clearErrors} from './errorActions';
 export const getSmart = ()=> dispatch => {
     dispatch(setSmartHubLoading());
@@ -39,6 +39,19 @@ export const addItem = item => (dispatch, getState) => {
         dispatch(clearErrors())
       );
   };
+
+  export const getSmartCoord = ()=> dispatch => {
+    dispatch(setSmartHubLoading());
+    axios.get('http://localhost:5000/api/smarthub').then(res => 
+        dispatch({
+            type : GET_SMARTHUB,
+            payload: res.data
+        }))
+        .catch(err =>
+            dispatch(clearErrors)
+          );
+}
+
 export const setSmartHubLoading = () => {
     return {
         type : smartHubLoading
