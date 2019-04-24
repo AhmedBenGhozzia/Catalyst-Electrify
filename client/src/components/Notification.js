@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
 import { getNotif, deleteNotif, getUncheked } from '../actions/notifActions';
-import PropTypes, { array } from 'prop-types';
+import PropTypes, { array, string } from 'prop-types';
 import CanvasJSReact from '../canvasjs.react';
 import DangerModel from './DangerModel';
 import WarningModel from './WarningModel';
@@ -13,23 +13,60 @@ import InfoModel from './InfoModel';
 import NavBar from "./NavBar";
 import Setting from "./Settings";
 import SideBar from "./SideBar";
+import axios from 'axios';
+
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-var users= {};
+var user;
 
 
 class Notification extends Component {
 
   constructor(props) {
     super(props);
+this.state =  {user : null}
+  } 
+   componentDidMount() {
+    var refreshIntervalId =   setInterval(() => {
+      this.setState({user : this.props.user},console.log(this.state.user))
+      if(this.state.user != null){
+        user=this.state.user._id;
+      this.props.getUncheked(this.state.user._id);
+      axios.get('http://localhost:5000/AlertNotif/NotifAlert/'+this.state.user._id)
+      axios.get('http://localhost:5000/AlertNotif/predict')
+      .then(function (response) {
+   var tab=Object.values(response.data);         console.log(user);
 
-  }
+       tab.forEach( function(data){
+        if (data>0.7){
 
- async  componentDidMount() {
-      this.props.getUncheked("5c94ffd05cdd3d504caf6e30");
-    this.notify();
+          axios({
+            method: 'post',
+            url: "http://localhost:5000/notif",
+            headers: {}, 
+            data: {
+               Cheked: false,
+              name: "SUCCESS : your battery is fully charged you can sell some energy",
+              type: "Danger",
+              idUser : user
+            }
+           
+          });
+
+        }
+
+       })
+     
+        console.log("*************************************");
+
+      })
+
+      clearInterval(refreshIntervalId);
+
+      this.notify();}
+     }, (7000));
 
     
-  }
+ }
   onDeleteClick = (id) => {
     this.props.deleteNotif(id);
 
@@ -648,16 +685,17 @@ class Notification extends Component {
 }
 
 Notification.propTypes = {
+  user: PropTypes.object.isRequired
+,
   getNotif: PropTypes.func.isRequired,
   getUncheked: PropTypes.func.isRequired,
-  notif: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
+  notif: PropTypes.object.isRequired
 
 }
 const mapStateToProps = (state) => ({
+  user :state.auth.user,
+  notif: state.notif
 
-  notif: state.notif,
-  user :state.auth.user
 
 
 });

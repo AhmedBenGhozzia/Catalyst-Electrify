@@ -42,6 +42,7 @@ this.toggle();
 
 componentDidMount() {
       this.props.getInfo();
+
     }
 List = (t) => {
   let tab = [];
@@ -60,7 +61,8 @@ List = (t) => {
 render(){
   const { NotificationsInfo } = this.props.notifStatus;
 console.log(NotificationsInfo);
-console.log(this.props.user)
+if (this.props.user != null){
+console.log(this.props.user._id)}
   let test2 = this.List(NotificationsInfo) ;
   const data = {
     columns: [

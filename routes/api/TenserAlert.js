@@ -12,23 +12,44 @@ var predictData = JSON.parse(content1);
 const DataNotification = require('../../models/DataNotification');
 var obj =[];
 var obj2 =[];
-router.get('/NotifAlert',(req,res)=>{
-  DataNotification.find(function(err, data){
+router.get('/NotifAlert/:id',(req,res)=>{
+  DataNotification.find({idUser :req.params.id} ,function(err, data){
     if(err){            
         console.log(err);
     }
     obj= data;
 
-    obj.forEach( function(data){    var date =dateFormat(data.date,"HH:MM:ss") ;
-    var date2 =dateFormat("2019-04-19T17:31:43.021Z","HH:MM:ss") ;     
-       console.log(date<date2);
+    obj.forEach( function(data){    var date =dateFormat(data.date,"HH") ;
+    var today = new Date();
+    var date2 =dateFormat(today,"HH") ;     
+    var date3 =dateFormat("2019-04-19T18:00:43.021Z","HH:MM:ss") ;  
+
+   
+if (date==01){
+ date = 23; 
+}
+else{date =date -2}
+
+if (date<17 && date2<=17){
 
 
+
+  obj2.push(data);
+
+
+}if (date>17 && date2>=17){
+
+
+
+  obj2.push(data);
+
+
+}
     })
     
     var json = 
     res.json(data);
-    fs.writeFile('myjsonfile.json', JSON.stringify(obj), 'utf8');
+    fs.writeFile('myjsonfile.json', JSON.stringify(obj2), 'utf8');
 
 
 })   
@@ -59,7 +80,7 @@ model.add(tf.layers.dense({
 }))
 
 model.add(tf.layers.dense({
-  inputShape: [6],
+  inputShape: [280],
   activation: "linear",
   units: 1
 })) 
@@ -75,13 +96,12 @@ model.compile({
   optimizer: tf.train.adam(.06),
 })
 
-model.fit(trainData, outputData, {epochs: 500,shuffle:true}).then((history) => console.log(history))
+model.fit(trainData, outputData, {epochs: 500,shuffle:true}).then()
 const data = tf.tensor([1,2,3,4]);
 
 router.get('/predict',function (req, res, next){
 
 data.print();
-
 
   res.send(model.predict(testingData).dataSync())
 })

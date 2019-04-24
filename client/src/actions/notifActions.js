@@ -69,7 +69,7 @@ export const getSuccsess = ()=> dispatch =>{
 export const getUncheked = (id)=> dispatch =>{
     dispatch(setNotifLoading());
     axios
-    .get(`/notif/UnchekedNotif/${id}`)
+    .get(`http://localhost:5000/notif/UnchekedNotif/${id}`)
     .then(res =>
         dispatch({
             type : UNCHECKED_NOTIF,
