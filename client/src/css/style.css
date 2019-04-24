@@ -14596,7 +14596,6 @@ button.close {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #ffffff;
   background-clip: padding-box;
   border: 1px solid #2a2c40;
   border-radius: 0.3rem;

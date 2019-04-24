@@ -1,0 +1,27 @@
+[
+    
+    {
+        "Hour": 13,
+        "Day": 4,
+        "Month": 4,
+        "Year": 2016,
+        "Cloud Coverage": 0.99,
+        "Visibility": 10,
+        "Temperature": 7.22,
+        "Dew Point": -0.94,
+        "Wind Speed": 13.64,
+        "Energy": 2724
+    },
+    {
+        "Hour": 10,
+        "Day": 27,
+        "Month": 4,
+        "Year": 2017,
+        "Cloud Coverage": 1,
+        "Visibility": 10,
+        "Temperature": 8.67,
+        "Dew Point": 6.14,
+        "Wind Speed": 15.69,
+        "Energy": 1207.75
+    }
+]
