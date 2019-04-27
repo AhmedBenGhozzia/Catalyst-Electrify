@@ -64,6 +64,7 @@ class ItemModal extends Component {
 
     // Close modal
     this.toggle();
+    window.location.reload();
   };
 
   render() {
@@ -116,7 +117,7 @@ class ItemModal extends Component {
                   onChange={(e) =>this.onChangeSerial(e.target.value)}
                   
                 />
-                <Button color='dark' style={{ marginTop: '2rem' }} block>
+                <Button color='dark' style={{ marginTop: '2rem' }} block> 
                   Add a SmartHub
                 </Button>
               </FormGroup>

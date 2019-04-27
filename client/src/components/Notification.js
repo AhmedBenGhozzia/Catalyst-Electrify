@@ -1,37 +1,78 @@
 import SuccsessModel from './SuccsessModel';
 import React, { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
 import { getNotif, deleteNotif, getUncheked } from '../actions/notifActions';
-import PropTypes, { array } from 'prop-types';
+import PropTypes, { array, string } from 'prop-types';
 import CanvasJSReact from '../canvasjs.react';
+import DangerModel from './DangerModel';
+import WarningModel from './WarningModel';
+import InfoModel from './InfoModel';
+import NavBar from "./NavBar";
+import Setting from "./Settings";
+import SideBar from "./SideBar";
+import axios from 'axios';
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
+var user;
 
 
 class Notification extends Component {
 
+  constructor(props) {
+    super(props);
+this.state =  {user : null}
+  } 
+   componentDidMount() {
+    var refreshIntervalId =   setInterval(() => {
+      this.setState({user : this.props.user},console.log(this.state.user))
+      if(this.state.user != null){
+        user=this.state.user._id;
+      this.props.getUncheked(this.state.user._id);
+      axios.get('http://localhost:5000/AlertNotif/NotifAlert/'+this.state.user._id)
+      axios.get('http://localhost:5000/AlertNotif/predict')
+      .then(function (response) {
+   var tab=Object.values(response.data);         console.log(user);
 
+       tab.forEach( function(data){
+        if (data>0.7){
 
+          axios({
+            method: 'post',
+            url: "http://localhost:5000/notif",
+            headers: {}, 
+            data: {
+               Cheked: false,
+              name: "SUCCESS : your battery is fully charged you can sell some energy",
+              type: "Danger",
+              idUser : user
+            }
+           
+          });
 
+        }
 
+       })
+     
+        console.log("*************************************");
 
-  componentDidMount() {
-    this.notify();
-    this.props.getUncheked();
+      })
+
+      clearInterval(refreshIntervalId);
+
+      this.notify();}
+     }, (7000));
+
     
-  }
+ }
   onDeleteClick = (id) => {
     this.props.deleteNotif(id);
 
   }
 
-   notify = () => toast("Welcome To Dashboard Notifications!", {
-    position: toast.POSITION.TOP_LEFT
-  });
+   
 
   Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name}</i>, {
     position: toast.POSITION.BOTTOM_RIGHT,
@@ -85,6 +126,7 @@ class Notification extends Component {
   render() {
 
 
+    console.log(this.props.user); 
 
 
 
@@ -94,71 +136,9 @@ class Notification extends Component {
     const { Notifications } = this.props.notif;
     console.log(Notifications);
     let test1 = this.List(Notifications);
-    const data = {
-      columns: [
+    
 
-        {
-          label: 'Content',
-          field: 'Content',
-          sort: 'asc',
-          width: 200
-        },
-        {
-          label: 'Type',
-          field: 'Type',
-          sort: 'asc',
-          width: 100
-        }
-
-
-
-      ],
-
-      rows: test1
-    };
-
-    const options2 = {
-			theme: "dark2",
-			animationEnabled: true,
-			zoomEnabled: true,
-			title:{
-				text: "Vente Prediction"
-			},
-			axisX: {
-				title:"Energy production",
-				suffix: "Wh",
-				crosshair: {
-					enabled: true,
-					snapToDataPoint: true
-				}
-			},
-			axisY:{
-				title: "Energy consumption",				suffix: "Wh",
-
-				includeZero: false,
-				crosshair: {
-					enabled: true,
-					snapToDataPoint: true
-				}
-			},
-			data: [{
-				type: "scatter",
-				markerSize: 15,
-				toolTipContent: "<b>Energy production: </b>{x}<br/><b>Energy consumption: </b>{y} </b> sales : true",
-				dataPoints: [{ x: 14.2, y: 215},
-					{ x: 24, y: 20},
-          { x: 26, y: 10},
-					{ x: 22, y: 20},
-					{ x: 27, y:28},
-					{ x: 16, y: 10},
-					{ x: 12, y: 9},
-					{ x: 17, y:18},
-
-				
-				]
-			}]
-		}
-  
+ 
     const options = {
       theme: "dark2",
       animationEnabled: true,
@@ -185,8 +165,16 @@ class Notification extends Component {
     }
   
     return (
-  
-      <div>
+
+      <div className="container-scroller">
+      <NavBar />
+      <div className="container-fluid page-body-wrapper">
+        <Setting />
+        <SideBar />
+        <div className="main-panel">
+          <div className="content-wrapper">
+          <div>
+
 
 
 {test1.map(({ name, type }) => (       
@@ -523,43 +511,10 @@ class Notification extends Component {
                 <div className="row">
                
 
-                <CanvasJSChart options = {options2}
-				/* onRef={ref => this.chart = ref} */
-			/>
+       
                 
-                  <div className="col-12 grid-margin">
-                    <div className="card">
-                      <div className="card-body">
-
-                        <p className="card-description">
-                        </p>
-                      
-
-                        <div className="alert alert-success" role="alert">
-                          <i className="mdi mdi-alert-circle" />                        
-                        
-                          Well done! You successfully read this important alert message.
-
-                          </div>
-                       
-
-                        <div className="alert alert-info" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Heads up! This alert needs your attention, but it's not super important.
-                          </div>
-                        <div className="alert alert-warning" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Warning! Better check yourself, you're not looking too good.
-                          </div>
-                        <div className="alert alert-danger" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Oh snap! Change a few things up and try submitting again.
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                   
+                
+ 
 
         <div className="row">
           <div className="col-md-3 grid-margin stretch-card">
@@ -591,7 +546,7 @@ class Notification extends Component {
                     <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
                     <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
                       <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Info</h3>
-                      <small className="mb-0">This month</small>
+                      <small className="mb-0"><InfoModel/></small>
                     </div>
                   </div>
                 </div>
@@ -609,7 +564,7 @@ class Notification extends Component {
                     <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
                     <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
                       <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Danger</h3>
-                      <small className="mb-0">This month</small>
+                      <small className="mb-0"><DangerModel/></small>
                     </div>
                   </div>
                 </div>
@@ -627,7 +582,7 @@ class Notification extends Component {
                     <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
                     <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
                       <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">Warning</h3>
-                      <small className="mb-0">This month</small>
+                      <small className="mb-0"><WarningModel/></small>
                     </div>
                   </div>
                 </div>
@@ -635,13 +590,46 @@ class Notification extends Component {
             </div>
           </div>
         </div>
-       
-        <div> <CanvasJSChart options = {options}/></div>
+
+        <div className="col-12 grid-margin">
+                    <div className="card">
+                      <div className="card-body">
+
+                        <p className="card-description">
+                        </p>
+                      
+
+                        <div className="alert alert-success" role="alert">
+                          <i className="mdi mdi-alert-circle" />                        
+                        
+                         Click Show Success to read this important alert message.
+
+                          </div>
+                       
+
+                        <div className="alert alert-info" role="alert">
+                          <i className="mdi mdi-alert-circle" />
+                          Click Show Info to read this important alert message.
+                          </div>
+                        <div className="alert alert-warning" role="alert">
+                          <i className="mdi mdi-alert-circle" />
+                          Click Show Warning to read this important alert message.
+                          </div>
+                        <div className="alert alert-danger" role="alert">
+                          <i className="mdi mdi-alert-circle" />
+                          Click Show Danger to read this important alert message.
+                          </div>
+                          <div> <CanvasJSChart options = {options}/></div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                  </div>
 
 
     </div>
 
-</div>
 </div>
 
               {/* content-wrapper ends */}
@@ -662,6 +650,12 @@ class Notification extends Component {
 
 
       </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     );
   }
 
@@ -670,14 +664,17 @@ class Notification extends Component {
 }
 
 Notification.propTypes = {
+  user: PropTypes.object.isRequired
+,
   getNotif: PropTypes.func.isRequired,
   getUncheked: PropTypes.func.isRequired,
   notif: PropTypes.object.isRequired
 
 }
 const mapStateToProps = (state) => ({
-
+  user :state.auth.user,
   notif: state.notif
+
 
 
 });

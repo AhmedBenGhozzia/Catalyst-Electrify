@@ -53,10 +53,25 @@ const smartHubSchema = mongoose.Schema({
        
     },
 
+    lat: {
+        type: String,
+        default: json_obj_C.latitude
+    },
+
+    lon: {
+        type: String,
+        default: json_obj_C.longitude
+    },
+
     country: {
         type: String,
         default: json_obj_C.country_name,
         required:true
+    },
+
+    mac_addr: {
+        type: String,
+        unique: true
     },
 
     User: {

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const NotificationSchema = new Schema({
-  Content: {
+  name: {
     type: String,
   },
   type: {
@@ -18,6 +18,9 @@ const NotificationSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  idUser: {
+    type: String,
   }
 });
 

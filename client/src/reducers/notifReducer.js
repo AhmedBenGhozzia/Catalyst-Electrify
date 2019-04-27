@@ -2,7 +2,11 @@ import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,U
 const inisialState ={
     Notifications :[],
     NotificationStatus :[],
-    loading : false
+    NotificationsDanger :[],
+    NotificationsWarning :[],
+    NotificationsInfo :[],
+    loading : false,
+    user :{}
 }
 
 
@@ -42,21 +46,21 @@ switch (action.type){
     }  
     case WARNING_NOTIF :
     return {...state,
-    Notifications :action.payload,
+        NotificationsWarning :action.payload,
     loading: false
     
     } 
      case DANGER_NOTIF :
     return {...state,
-    Notifications :action.payload,
+    NotificationsDanger :action.payload,
     loading: false
     
     }  
     case INFO_NOTIF :
     return {...state,
-    Notifications :action.payload,
+        NotificationsInfo :action.payload,
     loading: false
-    
+
     }
     default : return state;
 }

@@ -4,12 +4,10 @@ var router = express.Router();
 var fs = require('fs');
 
 const tf = require('@tensorflow/tfjs')
-require('@tensorflow/tfjs-node')
 var content = fs.readFileSync('./data/pvData2.json')
 var weather = JSON.parse(content);
 var content1 = fs.readFileSync('data/predict.json');
 var predictData = JSON.parse(content1);
-
 var ForecastIo = require('forecastio');
 var forecastIo = new ForecastIo('8ec0a32442842aca915a87d885b44e83');
 
@@ -22,20 +20,11 @@ const trainData = tf.tensor2d(weather.map(item => [
   item["Wind Speed"]
 ]))
 
-console.log(trainData)
 
 const outputData = tf.tensor2d(weather.map(item => [
   item.Energy
 ]))
 
-const testingData = tf.tensor2d(predictData.map(item => [
-  item.Hour,
-  item["Cloud Coverage"],
-  item.Visibility,
-  item.Temperature,
-  item["Dew Point"],
-  item["Wind Speed"]
-]))
 
 const model = tf.sequential()
 
@@ -83,7 +72,7 @@ router.get('/', function (req, res, next) {
       delete element.ozone
       element.Date = new Date(element.time * 1000)
       element.Hour = new Date(element.time * 1000).getHours()
-      element.Day = new Date(element.time * 1000).getDay()
+      element.Day = new Date(element.time * 1000).getDate()
       element.Month = new Date(element.time * 1000).getMonth()
       element.Year = new Date(element.time * 1000).getFullYear()
       delete element.time
@@ -121,7 +110,6 @@ router.get('/', function (req, res, next) {
     res.send(err)
     next()
   });
-  //res.send(model.predict(testingData).dataSync())
 })
 
 module.exports = router;

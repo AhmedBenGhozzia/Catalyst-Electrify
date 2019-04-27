@@ -4,6 +4,15 @@ const SmartHub = require('../../models/smartHub');
 const ProdCons = require('../../models/ProdCons');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var mongoose = require('mongoose');
+var Pusher = require('pusher');
+
+var pusher = new Pusher({
+  appId: '766424',
+  key: '1036a9abd7d298e83d48',
+  secret: '360c2ce84c26c4389df1',
+  cluster: 'eu',
+  encrypted: true
+});
 
 function Get(yourUrl){
     var Httpreq = new XMLHttpRequest(); // a new request
@@ -19,14 +28,14 @@ function generateRandomNumber() {
 
     return highlightedNumber;
 };
-
+/*
 var key="94f016c0b9a0ce07785c0bb7d52563a0";
 var keyPvWatts="TU9n4R5BVyHYH19hmncLVE6HXIXYR5PYAqXzjBoo";
 var json_obj_C = JSON.parse(Get("https://ipapi.co/json"));
 var json_obj = JSON.parse(Get("http://api.openweathermap.org/data/2.5/weather?q="+json_obj_C.city+"&APPID="+key+"&units=metric"));
-var json_pvwatts = JSON.parse(Get("https://developer.nrel.gov/api/pvwatts/v6.json?api_key="+keyPvWatts+"&lat="+Math.trunc(json_obj.coord.lat)+"&lon="+Math.trunc(json_obj.coord.lon)+"&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10&dataset=intl"));
+var json_pvwatts = JSON.parse(Get("https://developer.nrel.gov/api/pvwatts/v6.json?api_key="+keyPvWatts+"&lat="+Math.trunc(json_obj_C.latitude)+"&lon="+Math.trunc(json_obj_C.longitude)+"&system_capacity=4&azimuth=180&tilt=40&array_type=1&module_type=1&losses=10&dataset=intl"));
 var x= (((json_pvwatts.outputs.ac_annual)/365)/24);
-
+*/
 
 router.get('/',(req,res)=>{
     ProdCons.find().then(ProdConss =>res.json(ProdConss));
@@ -42,6 +51,10 @@ router.post('/add',(req,res)=>{
     });
 
     newProdCons.save().then(ProdCons=>res.json(ProdCons));
+    pusher.trigger('RtChart', 'new-ProdCons', {
+        ProdCons : newProdCons
+      });
+
     SmartHub.findById(req.body.SmartHub, function(err,doc) {
             doc.ProdCons.push(mongoose.Types.ObjectId(newProdCons._id));
             console.log(newProdCons._id);

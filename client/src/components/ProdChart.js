@@ -8,21 +8,31 @@ import ListSmart from './ListSmart';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Bar } from 'react-chartjs-2';
 export default class ProdChart extends Component {
+  generateRandomNumber() {
+    var min = 0.200,
+        max = 0.720,
+        highlightedNumber = ((Math.random() * (max - min) + min))*24;
+
+    return highlightedNumber;
+  };
+  
     constructor(props) {
         super(props);
         this.state= {
+            production: 0,
             chartData: {
                 
-                    labels:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June'],
+                    labels:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday','Sunday'],
                     datasets:[{
                       label:'Energy production',
                       data:[
-                        30,
-                        20,
-                        10,
-                        40,
-                        60,
-                        50
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber(),
+                        this.generateRandomNumber()
                       ],
                       //backgroundColor:'green',
                       backgroundColor:[
@@ -32,7 +42,8 @@ export default class ProdChart extends Component {
                         'rgba(75, 192, 192, 0.6)',
                         'rgba(153, 102, 255, 0.6)',
                         'rgba(255, 159, 64, 0.6)',
-                        'rgba(255, 99, 132, 0.6)'
+                        'rgba(242, 38, 19, 1)',
+                        'rgba(150, 40, 27, 1)'
                       ],
                       borderWidth:1,
                       borderColor:'#777',
@@ -42,6 +53,11 @@ export default class ProdChart extends Component {
                   }
             
         }
+        this.generateRandomNumber=this.generateRandomNumber.bind(this);
+    }
+
+    componentDidMount(){
+      console.log(this.generateRandomNumber())
     }
 
     render() {
@@ -59,7 +75,7 @@ export default class ProdChart extends Component {
                                      data={this.state.chartData}
                                      options={{title:{
                                         display:true,
-                                        text:'Energy production per month',
+                                        text:'Energy production per day (Kwh)',
                                         fontSize:25
                                       },
                                       legend:{
