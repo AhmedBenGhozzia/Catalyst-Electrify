@@ -64,7 +64,7 @@ model.compile({
   optimizer: tf.train.adam(.06),
 })
 
-model.fit(trainData, outputData, {epochs: 500,shuffle:true}).then((history) => console.log(history))
+model.fit(trainData, outputData, {epochs: 100,shuffle:true}).then((history) => console.log(history))
 const data = tf.tensor([1,2,3,4]);
 
 router.get('/predict',function (req, res, next){

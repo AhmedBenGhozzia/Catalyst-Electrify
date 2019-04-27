@@ -1,27 +1,75 @@
 [
     
     {
-        "Hour": 13,
-        "Day": 4,
-        "Month": 4,
-        "Year": 2016,
-        "Cloud Coverage": 0.99,
-        "Visibility": 10,
-        "Temperature": 7.22,
-        "Dew Point": -0.94,
-        "Wind Speed": 13.64,
-        "Energy": 2724
+        "Hour": 12,
+        "Day": 2,
+        "Month": 1,
+        "Year": 2017,
+        "Cloud Coverage": 1,
+        "Visibility": 1.85,
+        "Temperature": 6.97,
+        "Dew Point": 6.9,
+        "Wind Speed": 10.92,
+        "Energy": 449.25
     },
     {
-        "Hour": 10,
-        "Day": 27,
-        "Month": 4,
+        "Hour": 9,
+        "Day": 7,
+        "Month": 2,
+        "Year": 2016,
+        "Cloud Coverage": 0,
+        "Visibility": 10,
+        "Temperature": 3.96,
+        "Dew Point": -0.61,
+        "Wind Speed": 17.96,
+        "Energy": 3165.5
+    },
+    {
+        "Hour": 9,
+        "Day": 22,
+        "Month": 2,
+        "Year": 2016,
+        "Cloud Coverage": 0.04,
+        "Visibility": 10,
+        "Temperature": 2.99,
+        "Dew Point": -1.34,
+        "Wind Speed": 10.57,
+        "Energy": 2637
+    },
+    {
+        "Hour": 8,
+        "Day": 3,
+        "Month": 10,
         "Year": 2017,
         "Cloud Coverage": 1,
         "Visibility": 10,
-        "Temperature": 8.67,
-        "Dew Point": 6.14,
-        "Wind Speed": 15.69,
-        "Energy": 1207.75
+        "Temperature": 21.6,
+        "Dew Point": 17.14,
+        "Wind Speed": 11.84,
+        "Energy": 710.25
+    },
+    {
+        "Hour": 7,
+        "Day": 27,
+        "Month": 2,
+        "Year": 2017,
+        "Cloud Coverage": 1,
+        "Visibility": 10,
+        "Temperature": 2.75,
+        "Dew Point": 0.7,
+        "Wind Speed": 6.64,
+        "Energy": 680.5
+    },
+    {
+        "Hour": 6,
+        "Day": 25,
+        "Month": 5,
+        "Year": 2016,
+        "Cloud Coverage": 0,
+        "Visibility": 10,
+        "Temperature": 20.08,
+        "Dew Point": 17.37,
+        "Wind Speed": 8.04,
+        "Energy": 273.95
     }
 ]

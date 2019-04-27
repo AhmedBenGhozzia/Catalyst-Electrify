@@ -24,6 +24,7 @@
     "datatables.net-dt": "^1.10.19",
     "debug": "~2.6.9",
     "express": "~4.16.0",
+    "forecastio": "^2.0.0",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.2",
     "jquery": "^3.3.1",

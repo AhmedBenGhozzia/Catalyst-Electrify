@@ -1,9 +1,16 @@
-from pandas import read_csv
+from flask import Flask, request, jsonify
+import json
+app = Flask(__name__)
+from io import StringIO
+
+from pandas import read_csv, read_json
 from datetime import datetime
+
 # load data
 def parse(x):
 	return datetime.strptime(x, '%Y %m %d %H')
 dataset = read_csv('../data/weather_train.csv',  parse_dates = [['Year', 'Month', 'Day', 'Hour']], index_col=0, date_parser=parse)
+print(dataset.head(5))
 dataset.drop('Altimeter', axis=1, inplace=True)
 dataset.drop('Station Pressure', axis=1, inplace=True)
 # manually specify column names
@@ -76,6 +83,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
  
 # load dataset
 dataset = read_csv('../data/energy.csv', header=0, index_col=0)
+print(dataset.head(5))
 values = dataset.values
 # integer encode direction
 encoder = LabelEncoder()
@@ -112,10 +120,10 @@ model.compile(loss='mae', optimizer='adam')
 # fit network
 history = model.fit(train_X, train_y, epochs=100, batch_size=72, validation_data=(test_X, test_y), verbose=2, shuffle=False)
 # plot history
-pyplot.plot(history.history['loss'], label='train')
-pyplot.plot(history.history['val_loss'], label='test')
-pyplot.legend()
-pyplot.show()
+# pyplot.plot(history.history['loss'], label='train')
+# pyplot.plot(history.history['val_loss'], label='test')
+# pyplot.legend()
+# pyplot.show()
 
 # make a prediction
 yhat = model.predict(test_X)
@@ -133,3 +141,49 @@ inv_y = inv_y[:,0]
 rmse = sqrt(mean_squared_error(inv_y, inv_yhat))
 print(inv_yhat)
 print('Test RMSE: %.3f' % rmse)
+
+@app.route('/', methods=['POST'])
+def predict():
+	buffer = StringIO()
+	buffer2 = StringIO()
+	read_json(json.dumps(request.get_json()),orient='records').to_csv(buffer)
+	buffer.seek(0)
+	predictData = read_csv(buffer,  parse_dates = [['Year', 'Month', 'Day', 'Hour']], index_col=0, date_parser=parse)
+	predictData.drop('Unnamed: 0', axis=1, inplace=True)
+	predictData = predictData[['Energy', 'Cloud Coverage', 'Visibility', 'Temperature', 'Dew Point', 'Relative Humidity', 'Wind Speed']]
+	predictData.index.name = 'Date'
+	# mark all NA values with 0
+	predictData['Energy'].fillna(0, inplace=True)
+	predictData.to_csv(buffer2)
+	buffer2.seek(0)
+	predictData = read_csv(buffer2, header=0, index_col=0)
+	print(predictData)
+	values = predictData.values
+	# integer encode direction
+	encoder = LabelEncoder()
+	values[:,4] = encoder.fit_transform(values[:,4])
+	# ensure all data is float
+	values = values.astype('float32')
+	# normalize features
+	scaler = MinMaxScaler(feature_range=(0, 1))
+	scaled = scaler.fit_transform(values)
+	print(scaled)
+	# frame as supervised learning
+	reframed = series_to_supervised(scaled, 1, 1)
+	# drop columns we don't want to predict
+	reframed.drop(reframed.columns[[8,9,10,11,12,13]], axis=1, inplace=True)
+	values = reframed.values
+	print(values)
+	test = values
+	# split into input and outputs
+	test_X, test_y = test[:, :-1], test[:, -1]
+	# reshape input to be 3D [samples, timesteps, features]
+	test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
+	yhat = model.predict(test_X)
+	test_X = test_X.reshape((test_X.shape[0], test_X.shape[2]))
+	# invert scaling for forecast
+	inv_yhat = concatenate((yhat, test_X[:, 1:]), axis=1)
+	inv_yhat = scaler.inverse_transform(inv_yhat)
+	inv_yhat = inv_yhat[:,0]
+	print(inv_yhat)
+	return 'predictData'
