@@ -22,7 +22,11 @@ export default class Dashboard extends Component {
     const items = this.state.cata.map(address => {
       return {
         header: address,
-        description: <Link to={"/contract/" + address}>View Catalyst</Link>,
+        description: (
+          <div>
+            <Link to={"/contract/" + address}>View Catalyst</Link>
+          </div>
+        ),
         fluid: true
       };
     });
@@ -51,8 +55,6 @@ export default class Dashboard extends Component {
       <div>
         <h1>Dashboard</h1>
         {this.renderCata()}
-
-       
 
         <Button primary loading={this.state.loading} onClick={this.handleClick}>
           Create!
