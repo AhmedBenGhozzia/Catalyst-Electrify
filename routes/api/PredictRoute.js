@@ -99,7 +99,7 @@ router.get('/', function (req, res, next) {
     ]))
     var energy = model.predict(testingData).dataSync()
     data.hourly.data.forEach((element, index) => {
-       if(element.Hour<=6 || element.Hour>= 17)
+       if(element.Hour<=6 || element.Hour>= 19)
          element.Energy =  0
        else
       element.Energy = energy[index]

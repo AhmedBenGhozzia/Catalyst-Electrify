@@ -26,6 +26,7 @@ import Maps from './components/Map';
 import RtChart from './components/RtChart';
 import Battery from './components/Battery';
 import Spinners from './components/Spinners'
+import Predict from "./components/Predict";
 class App extends Component {
 
   componentDidMount() {
@@ -52,6 +53,7 @@ class App extends Component {
             <Route path="/RtChart" component={RtChart}/>
             <Route path="/Battery" component={Battery}/>
             <Route path="/Spinners" component={Spinners}/>
+            <Route path="/Predict" component={Predict}/>
 
             <Route component={NotFound} />
           </Switch>
