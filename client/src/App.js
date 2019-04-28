@@ -55,6 +55,8 @@ class App extends Component {
             <Route path="/Spinners" component={Spinners}/>
             <Route path="/Predict" component={Predict}/>
 
+
+            
             <Route component={NotFound} />
           </Switch>
         </Router>

@@ -4,6 +4,7 @@ import DataTable from './DataTableSmart';
 export default class SideBar extends Component {
   render() {
     return (
+
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <ul className="nav">
           <li className="nav-item">
@@ -28,9 +29,20 @@ export default class SideBar extends Component {
               <span className="menu-title">Prediction</span>
             </a>
           </li>
+    <li className="nav-item">
+                        <a className="nav-link" data-toggle="collapse" href="notifications" aria-expanded="false" aria-controls="charts">
+                            <i className="mdi mdi-bell" />
+                            <span className="menu-title">Notifications</span>
+                            <i className="menu-arrow" />
+                        </a><ul className="nav flex-column sub-menu">
+                             
+                            </ul>
+                       
+                   </li> 
 
         </ul>
       </nav>
+
 
 
     )

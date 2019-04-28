@@ -11,6 +11,8 @@ const SmartHub = require('./routes/api/SmartHubRoutes');
 const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
 const DataNotification = require('./routes/api/DataNotificationRoute');
+const DataNight = require('./routes/api/DataNightNotificationRoute');
+
 const tenserNotif = require('./routes/api/TenserNotif');
 const AlertNotif = require('./routes/api/TenserAlert');
 var cron = require('node-cron');
@@ -91,6 +93,8 @@ app.use('/api/ProdCons',ProdCons);
 app.use('../Catalyst-Electrify/loop.js',setInterval);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
+app.use('/DataNight',DataNight);
+
 app.use('/VenteNotif',tenserNotif);
 app.use('/AlertNotif',AlertNotif);
 app.use('/n',tenserNotif);
@@ -108,14 +112,13 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 
-app.use('/push',push);
 var production_heure ={};
 var consomation_heure ={};
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-var task = cron.schedule('*/1 * * * *', () =>  {
+var task = cron.schedule('*/5 * * * *', () =>  {
   Date.prototype.lesshour= function(){
     this.setHours(this.getHours()-1);
     return this;
@@ -134,10 +137,14 @@ today.setHours(today.getHours()-1 );
   }
 console.log(today),
     obj.forEach( function(data){  
+const vente = false;
 
      if (dateCompare(today,data.date)){
       production_heure=data.Prod_hourly;
       consomation_heure= data.Cons_hourly;
+      if (consomation_heure *2 < production_heure){
+        vente =true;
+      }
       request({
         url: "http://localhost:5000/DataNotification",
         method: "POST",
@@ -149,7 +156,7 @@ console.log(today),
             'Content-Type' : 'application/json'
         },
         body: { 
-          Consomation:Number(consomation_heure),Production:Number(production_heure),Prix:100,idUser:"5c94ffd05cdd3d504caf6e30"
+          Consomation:Number(consomation_heure),Production:Number(production_heure),Prix:100,idUser:"5c94ffd05cdd3d504caf6e30",Vente:vente
         }
   });
 

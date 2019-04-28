@@ -19,21 +19,19 @@
 
 /* eslint-env browser, serviceworker, es6 */
 
-'use strict';
-
 self.addEventListener('push', function(event) {
     console.log('[Service Worker] Push Received.');
     console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
   
  
-    const title = 'HEllo';
+    const title = 'Notification';
     const options = {
-      body: 'HAoub.',
+      body: 'Check New Notification',
       icon: 'icon.png',
       badge: 'badge.png'
     }; 
 
     event.waitUntil(self.registration.showNotification(title, options));
     //self.registration.showNotification(title, options);
-  });
+  })
   

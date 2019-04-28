@@ -14,44 +14,78 @@ import NavBar from "./NavBar";
 import Setting from "./Settings";
 import SideBar from "./SideBar";
 import axios from 'axios';
+import {subscribePush,unsubscribePush} from './main.js';
+import Speech from 'speak-tts';
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 var user;
+var self = [];
+var self2 = [];
 
-
+var prediction =false ;
 class Notification extends Component {
 
   constructor(props) {
     super(props);
-this.state =  {user : null}
+this.state =  {user : null,Data:[]}
+this.toggleDataSeries = this.toggleDataSeries.bind(this);
+this.onvoice = this.onvoice.bind(this);
+
+
   } 
+  toggleDataSeries(e){
+		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+			e.dataSeries.visible = false;
+		}
+		else{
+			e.dataSeries.visible = true;
+		}
+		this.chart.render();
+	}
    componentDidMount() {
+    
+
+    axios.get('http://localhost:5000/DataNotification/test')
+    .then(res =>     {var obj  =res.data  ; obj.forEach(function(data){ 
+console.log(data);
+self.push(data);
+
+    }) })
+
+
+    axios.get('http://localhost:5000/DataNotification/test2')
+    .then(res =>     {var obj  =res.data  ; obj.forEach(function(data){ 
+console.log(data);
+self2.push(data);
+
+    }) })
     var refreshIntervalId =   setInterval(() => {
       this.setState({user : this.props.user},console.log(this.state.user))
       if(this.state.user != null){
+
+    
         user=this.state.user._id;
       this.props.getUncheked(this.state.user._id);
       axios.get('http://localhost:5000/AlertNotif/NotifAlert/'+this.state.user._id)
       axios.get('http://localhost:5000/AlertNotif/predict')
       .then(function (response) {
    var tab=Object.values(response.data);         console.log(user);
-
-       tab.forEach( function(data){
-        if (data>0.7){
-
+       tab.forEach( function(data){   
+     
+        if (data>0){
+          prediction= true;
           axios({
             method: 'post',
             url: "http://localhost:5000/notif",
             headers: {}, 
             data: {
                Cheked: false,
-              name: "SUCCESS : your battery is fully charged you can sell some energy",
-              type: "Danger",
+              name: "SUCCESS : You can sell some energy ",
+              type: "Success",
               idUser : user
             }
            
           });
-
         }
 
        })
@@ -61,8 +95,8 @@ this.state =  {user : null}
       })
 
       clearInterval(refreshIntervalId);
-
-      this.notify();}
+      this.notify();
+      }
      }, (7000));
 
     
@@ -71,20 +105,105 @@ this.state =  {user : null}
     this.props.deleteNotif(id);
 
   }
+  onvoice = () => {
+  
+    const  speech = new Speech() // will throw an exception if not browser supported
+    if(speech.hasBrowserSupport()) { // returns a boolean
+        console.log("speech synthesis supported")
+    }
+   
+ speech.init({
+    "volume": 1,
+     "lang": "en-GB",
+     "rate": 1,
+     "pitch": 1,
+     "splitSentences": true,
+     "listeners": {
+         'onvoiceschanged': (voices) => {
+             console.log("Event voiceschanged", voices);
+         }
+     }
+}).then((data) => {       
+
+    // The "data" object contains the list of available voices and the voice synthesis params
+    console.log("Speech is ready, voices are available", data)
+}).catch(e => {
+    console.error("An error occured while initializing : ", e)
+}).then(speech.setVoice("Google UK English Female"));
+    
+
+
+
+
+speech.speak({
+    text: 'you have validate your sell Check your email',
+}).then(() => {
+    console.log("Success !")
+}).catch(e => {
+    console.error("An error occurred :", e)
+})
+        
+   
+     }
+   
+
+
+     onvoice2 = () => {
+
+        const  speech = new Speech() // will throw an exception if not browser supported
+        if(speech.hasBrowserSupport()) { // returns a boolean
+            console.log("speech synthesis supported")
+        }
+       
+     speech.init({
+        "volume": 1,
+         "lang": "en-GB",
+         "rate": 1,
+         "pitch": 1,
+         "splitSentences": true,
+         "listeners": {
+             'onvoiceschanged': (voices) => {
+                 console.log("Event voiceschanged", voices);
+             }
+         }
+ }).then((data) => {       
+
+        // The "data" object contains the list of available voices and the voice synthesis params
+        console.log("Speech is ready, voices are available", data)
+    }).catch(e => {
+        console.error("An error occured while initializing : ", e)
+    }).then(speech.setVoice("Google UK English Male"));
+        
 
    
 
-  Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name}</i>, {
+
+    speech.speak({
+        text: '',
+    }).then(() => {
+        console.log("Success !")
+    }).catch(e => {
+        console.error("An error occurred :", e)
+    })
+            
+       
+         }
+
+   
+  notify = () => toast( <i className="mdi  mdi-alert-circle" >  Welcom to Dashbord Notificatons</i>, {
+    position: toast.POSITION.TOP_LEFT,
+  }, { autoClose: 15000 });
+  Danger = (name) => toast.error( <i className="mdi  mdi-alert-circle" >  {name.name}</i>, {
     position: toast.POSITION.BOTTOM_RIGHT,
   }, { autoClose: 15000 });
-  Success = (name) => toast.success( <i className="mdi mdi-alarm-light" >  {name}</i>, {
+  Success = (name) => toast.success( <i className="mdi mdi-alarm-light" >  {name.name}</i>, {
     position: toast.POSITION.TOP_RIGHT
   }, { autoClose: 15000 });
 
-  Info = (name) => toast.info( <i className="mdi mdi-information" >  {name}</i>, {
+  Info = (name) => toast.info( <i className="mdi mdi-information" >  {name.name}</i>, {
     position: toast.POSITION.BOTTOM_CENTER
   }, { autoClose: 15000 });
-  Warning = (name) => toast.warn( <i className="mdi mdi-alert" >  {name}</i>, {
+  Warning = (name) => toast.warn( <i className="mdi mdi-alert" >  {name.name}</i>, {
     position: toast.POSITION.BOTTOM_LEFT
   }, { autoClose: 15000 });
 
@@ -95,12 +214,12 @@ this.state =  {user : null}
     const type4 = { type: "Info" };
     if (JSON.stringify(type2) == JSON.stringify(type1)
     ) {
-      this.Danger(name.name);
+      this.Danger(name);
     }
     else if (JSON.stringify(type2) == JSON.stringify(type0)) {
-      this.Warning(name.name);
-    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(name.name); }
-    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info(name.name) ;}
+      this.Warning(name);
+    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(name); }
+    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info(name) ;}
   }
 
 
@@ -125,11 +244,11 @@ this.state =  {user : null}
 
   render() {
 
-
     console.log(this.props.user); 
 
-
-
+if(prediction== true){
+  this.onvoice();
+}
 
 
 
@@ -137,7 +256,57 @@ this.state =  {user : null}
     console.log(Notifications);
     let test1 = this.List(Notifications);
     
+    const options2 = {
+			theme: "light2",
+      animationEnabled: true,
+      exportEnabled: true,
 
+      title:{
+        text: "Energy Sell States "
+      },
+      subtitles: [{
+        text: "Click Legend to Hide or Unhide Data Series"
+      }], 
+      axisX: {
+        title: "States"
+      },
+      axisY: {
+        title: "Selled Enery",
+        titleFontColor: "#4F81BC",
+        lineColor: "#4F81BC",
+        labelFontColor: "#4F81BC",
+        tickColor: "#4F81BC"
+      },
+      axisY2: {
+        title: "Unselled Energy",
+        titleFontColor: "#C0504E",
+        lineColor: "#C0504E",
+        labelFontColor: "#C0504E",
+        tickColor: "#C0504E"
+      },
+      toolTip: {
+        shared: true
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: this.toggleDataSeries
+      },
+      data: [{
+        type: "column",
+        name: "Selled Energy",
+        showInLegend: true,      
+        yValueFormatString: "#,##0.# Selled",
+        dataPoints: self
+      },
+      {
+        type: "column",
+        name: "Unselled",
+        axisYType: "secondary",
+        showInLegend: true,
+        yValueFormatString: "#,##0.# Unselled",
+        dataPoints: self2
+      }]
+		}
  
     const options = {
       theme: "dark2",
@@ -177,8 +346,8 @@ this.state =  {user : null}
 
 
 
-{test1.map(({ name, type }) => (       
-  <p key={name}>{this.notificationsTypes({ type },{name})}
+{Notifications.map(({ _id,name, type }) => (       
+  <p key={_id}>{this.notificationsTypes({ type },{name})}
 
      </p>
 ))}
@@ -507,23 +676,28 @@ this.state =  {user : null}
             {/* partial */}
 
             <div className="main-panel">
-              <div className="content-wrapper">
+            <CanvasJSChart options = {options2} 
+				 onRef={ref => this.chart = ref}
+			/>              <div className="content-wrapper">
                 <div className="row">
                
 
        
                 
                 
- 
+
+
 
         <div className="row">
           <div className="col-md-3 grid-margin stretch-card">
             <div className="card border-0 border-radius-2 bg-success">
               <div className="card-body">
+
                 <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
                   <div className="icon-rounded-inverse-success icon-rounded-lg">
                     <i className="mdi mdi-alarm-light" />
                   </div>
+                  
                   <div className="text-white">
                     <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">Consult Notifications</p>
                     <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
@@ -591,39 +765,7 @@ this.state =  {user : null}
           </div>
         </div>
 
-        <div className="col-12 grid-margin">
-                    <div className="card">
-                      <div className="card-body">
-
-                        <p className="card-description">
-                        </p>
-                      
-
-                        <div className="alert alert-success" role="alert">
-                          <i className="mdi mdi-alert-circle" />                        
-                        
-                         Click Show Success to read this important alert message.
-
-                          </div>
-                       
-
-                        <div className="alert alert-info" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Click Show Info to read this important alert message.
-                          </div>
-                        <div className="alert alert-warning" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Click Show Warning to read this important alert message.
-                          </div>
-                        <div className="alert alert-danger" role="alert">
-                          <i className="mdi mdi-alert-circle" />
-                          Click Show Danger to read this important alert message.
-                          </div>
-                          <div> <CanvasJSChart options = {options}/></div>
-
-                      </div>
-                    </div>
-                  </div>
+        <CanvasJSChart options = {options}/>
                   <div>
                   </div>
 
@@ -680,4 +822,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getNotif, deleteNotif, getUncheked })(Notification);
+export default connect(mapStateToProps, { getNotif, deleteNotif, getUncheked ,subscribePush,unsubscribePush})(Notification);

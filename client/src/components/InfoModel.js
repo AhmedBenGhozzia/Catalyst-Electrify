@@ -17,6 +17,8 @@ import {subscribePush,unsubscribePush} from './main.js'
 import { MDBDataTable } from 'mdbreact';
 class InfoModel extends Component {
 
+
+
         state = {
           modal: false,
           name: '',
@@ -93,7 +95,8 @@ return(
 <Button Component="dark"  className="alert-dark"
 onClick ={this.toggle}  >
 Show Danger </Button>
-{subscribePush()} {unsubscribePush()}
+{unsubscribePush()}
+{subscribePush()}
 <Modal  className ="my-modal"
 isOpen={this.state.modal}
 toggle ={this.toggle}>

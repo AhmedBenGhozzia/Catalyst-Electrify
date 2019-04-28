@@ -37,22 +37,23 @@ function urlBase64ToUint8Array(base64String) {
   }
   return outputArray
 }
+
 export  function subscribePush() {
-    navigator.serviceWorker.ready.then(registration => {
-      if (!registration.pushManager) {
-        alert("Push Unsupported")
-        return
-      }
-      
-      registration.pushManager
-        .subscribe({
-          userVisibleOnly: true, //Always display notifications
-          applicationServerKey: convertedVapidKey
-        })
-        .then(subscription => {console.log(subscription);axios.post("http://localhost:5000/push/register", subscription)})
-        .catch(err => console.error("Push subscription error: ", err))
-    })
-  }
+  navigator.serviceWorker.ready.then(registration => {
+    if (!registration.pushManager) {
+      alert("Push Unsupported")
+      return
+    }
+    
+    registration.pushManager
+      .subscribe({
+        userVisibleOnly: true, //Always display notifications
+        applicationServerKey: convertedVapidKey
+      })
+      .then(subscription => axios.post("http://localhost:5000/push/register", subscription))
+      .catch(err => console.error("Push subscription error: ", err))
+  })
+}
   export function unsubscribePush() {
     navigator.serviceWorker.ready.then(registration => {
       //Find the registered push subscription in the service worker
