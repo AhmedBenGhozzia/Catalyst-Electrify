@@ -30,14 +30,14 @@ if (date==01){
 }
 else{date =date -2}
 
-if (date<17 && date2<=17){
+if (date<17 ){
 
 
 
   obj2.push(data);
 
 
-}if (date>17 && date2>=17){
+}if (date>=17 ){
 
 
 
