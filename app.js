@@ -36,7 +36,6 @@ var pusher = new Pusher({
 });
 
 const socketIo = require("socket.io");
-const axios = require("axios");
 const server = http.createServer(app);
 const io = socketIo(server);
 
