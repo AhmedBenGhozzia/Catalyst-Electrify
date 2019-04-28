@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard";
 import CatalystDetails from "./CatalystDetails";
 import CatalystTransaction from "./CatalystTransaction";
 
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 export default class Home extends Component {
