@@ -3,7 +3,7 @@ import Catalyst from "../ethereum/Catalyst";
 import ModalExampleMultiple from "./MultipleModals";
 import { MDBDataTable } from 'mdbreact';
 import '../css/MultipleModals.css';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 
 
 
@@ -15,59 +15,81 @@ export default class CatalystDetails extends Component {
     keys: [],
     productionHistory: [],
     consumtionHistory: [],
-    table: [],
-    numTransaction: 0
+    numTransaction: 0,
+    consByMonth: [],
+    prodByMonth: [],
+    dateByHistory: [],
+    data: ""
+
   };
-  data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [{
-      label: "Stock A",
-      fill: false,
-      lineTension: 0.1,
-      backgroundColor: "rgba(225,0,0,0.4)",
-      borderColor: "red", // The main line color
-      borderCapStyle: 'square',
-      borderDash: [], // try [5, 15] for instance
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: "black",
-      pointBackgroundColor: "white",
-      pointBorderWidth: 1,
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: "yellow",
-      pointHoverBorderColor: "brown",
-      pointHoverBorderWidth: 2,
-      pointRadius: 4,
-      pointHitRadius: 10,
-      // notice the gap in the data and the spanGaps: true
-      data: [65, 59, 80, 81, 56, 55, 40, , 60, 55, 30, 78],
-      spanGaps: true,
-    }, {
-      label: "Stock B",
-      fill: true,
-      lineTension: 0.1,
-      backgroundColor: "rgba(167,105,0,0.4)",
-      borderColor: "rgb(167, 105, 0)",
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: "white",
-      pointBackgroundColor: "black",
-      pointBorderWidth: 1,
-      pointHoverRadius: 8,
-      pointHoverBackgroundColor: "brown",
-      pointHoverBorderColor: "yellow",
-      pointHoverBorderWidth: 2,
-      pointRadius: 4,
-      pointHitRadius: 10,
-      // notice the gap in the data and the spanGaps: false
-      data: [10, 20, 60, 95, 64, 78, 90, , 70, 40, 70, 89],
-      spanGaps: false,
+
+
+  getConsByMonth = () => {
+    var cons = [];
+    var date = [];
+    var prod = [];
+    var CurrentMonth = new Date(+this.state.keys[0]).getMonth();
+    var sommeCons = 0;
+    var sommeProd = 0;
+    console.log(this.state.count);
+    for (let index = 0; index <= +this.state.count; index++) {
+      const element = this.state.keys[index];
+
+
+
+      console.log(new Date(+element).getMonth());
+      var month = new Date(+element).getMonth()
+      if (CurrentMonth == month && +this.state.count >= index) {
+        sommeCons = +this.state.consumtionHistory[index] + sommeCons;
+        sommeProd = +this.state.productionHistory[index] + sommeProd;
+        console.log(" SommeCons : " + sommeCons)
+
+
+
+      } else {
+        console.log("SommeCons " + sommeCons);
+        date.push(+CurrentMonth + 1);
+        cons.push(sommeCons);
+        prod.push(sommeProd);
+        CurrentMonth = month;
+        sommeCons = 0;
+        sommeProd = 0;
+        if (+this.state.count === index) {
+          console.log("else !")
+          sommeCons = +this.state.consumtionHistory[index] + sommeCons;
+          sommeProd = +this.state.productionHistory[index] + sommeProd;
+
+
+        } else {
+          console.log("from else 2 ")
+          sommeCons = +this.state.consumtionHistory[index] + sommeCons;
+          sommeProd = +this.state.productionHistory[index] + sommeProd;
+
+
+
+        }
+      }
+      console.log("index" + index)
     }
 
-    ]
-  };
+
+
+    console.log("cons");
+    console.log(cons);
+    console.log("prod");
+    console.log(prod);
+    console.log("date");
+    console.log(date);
+    // var resultMonth = [prod, cons, date];
+
+    // console.log(resultMonth[0]);
+    //return resultMonth;
+    this.setState({
+      prodByMonth: prod,
+      consByMonth: cons,
+      dateByHistory: date
+    });
+  }
 
 
   DatatablePage = () => {
@@ -111,7 +133,7 @@ export default class CatalystDetails extends Component {
     for (let i = 0; i < this.state.count; i++) {
       data.rows.push(
         {
-          date: this.dateFormat(this.state.keys[i]),
+          date: new Date(+this.state.keys[i]).toDateString(),
           production: this.state.productionHistory[i],
           consommation: this.state.consumtionHistory[i],
           status: (+this.state.productionHistory[i] > +this.state.consumtionHistory[i]) ? <div className="badge badge-success badge-fw">good </div> : ((+this.state.productionHistory[i] < +this.state.consumtionHistory[i]) ? <div className="badge badge-danger badge-fw">Bad</div> : <div className="badge badge-info badge-fw">equal</div>),
@@ -121,6 +143,8 @@ export default class CatalystDetails extends Component {
 
       )
     }
+
+
 
     return (
       <MDBDataTable
@@ -157,7 +181,6 @@ export default class CatalystDetails extends Component {
       .call();
 
 
-
     this.setState({
       totalConsumption,
       totalProduction,
@@ -167,8 +190,12 @@ export default class CatalystDetails extends Component {
       consumtionHistory
     });
     this.getNumberTransaction();
+    this.getConsByMonth();
     this.createTable();
+
+
   }
+
 
   getNumberTransaction = () => {
     var date = new Date(+this.state.keys[this.state.keys.length - 1]);
@@ -221,7 +248,6 @@ export default class CatalystDetails extends Component {
         consumtionHistory
       });
       this.getNumberTransaction();
-      this.createTable();
 
 
     }, 1000)
@@ -246,7 +272,86 @@ export default class CatalystDetails extends Component {
     this.setState({ table })
   };
 
+
+
   render() {
+    const data = {
+      //labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      labels: this.state.keys.map(x => {
+        const d = new Date(+x);
+        return d.toDateString();
+      }),
+      datasets: [{
+        label: "Production",
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: "rgba(92,184,92,0.4)",
+        borderColor: "rgb(92,184,92)",
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "black",
+        pointBackgroundColor: "white",
+        pointBorderWidth: 1,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: "white",
+        pointHoverBorderColor: "black",
+        pointHoverBorderWidth: 2,
+        pointRadius: 4,
+        pointHitRadius: 10,
+        // notice the gap in the data and the spanGaps: false
+        data: this.state.productionHistory,
+        spanGaps: false,
+      },
+      {
+        label: "Consumption",
+        fill: true,
+        lineTension: 0.1,
+        backgroundColor: "rgba(225,0,0,0.4)",
+        borderColor: "red", // The main line color
+        borderCapStyle: 'square',
+        borderDash: [], // try [5, 15] for instance
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: "black",
+        pointBackgroundColor: "white",
+        pointBorderWidth: 1,
+        pointHoverRadius: 8,
+        pointHoverBackgroundColor: "white",
+        pointHoverBorderColor: "black",
+        pointHoverBorderWidth: 2,
+        pointRadius: 4,
+        pointHitRadius: 10,
+        // notice the gap in the data and the spanGaps: true
+        data: this.state.consumtionHistory,
+        spanGaps: true,
+      }
+
+      ]
+    };
+
+    const data2 = {
+      labels: this.state.dateByHistory,
+      datasets: [
+        {
+          label: 'Production',
+          backgroundColor: "rgba(92,184,92,0.4)",
+          borderColor: "rgb(92,184,92)",
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(92,184,92,0.8)',
+          data: this.state.prodByMonth
+        },
+        {
+          label: 'Consumption',
+          backgroundColor: 'rgba(225,0,0,0.4)',
+          borderColor: 'rgba(225,0,0)',
+          borderWidth: 1,
+          hoverBackgroundColor: 'rgba(225,0,0,0.8)',
+          data: this.state.consByMonth
+        }
+      ]
+    };
 
     return (
       <div className="content-wrapper">
@@ -286,7 +391,7 @@ export default class CatalystDetails extends Component {
                       <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
                         {this.state.totalProduction}
                       </h3>
-                      <small className="mb-0">This month</small>
+
                     </div>
                   </div>
                 </div>
@@ -303,13 +408,13 @@ export default class CatalystDetails extends Component {
                   </div>
                   <div className="text-white">
                     <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">
-                      Consommation Totale
+                      Consumption Totale
                     </p>
                     <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
                       <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
                         {this.state.totalConsumption}
                       </h3>
-                      <small className="mb-0">This month</small>
+
                     </div>
                   </div>
                 </div>
@@ -317,7 +422,43 @@ export default class CatalystDetails extends Component {
             </div>
           </div>
         </div>
+        <div>
+          <h2>Line chart of consumption and production </h2>
+          <Line data={data}
 
+            width={100}
+            height={80}
+
+            options={{
+              maintainAspectRatio: false,
+              scales: {
+
+                xAxes: [{
+                  type: 'time',
+                  ticks: {
+                    autoSkip: true,
+                    maxTicksLimit: 20
+                  }
+                }]
+              }
+            }} />
+
+
+        </div>
+
+        <div>
+          <h2>Bar chart of consumption and production (by month)</h2>
+          <Bar
+            data={data2}
+            width={100}
+            height={150}
+            options={{
+              maintainAspectRatio: false
+            }}
+
+
+          />
+        </div>
         <div className="col-md-12">
           <div className="card">
 
@@ -333,10 +474,8 @@ export default class CatalystDetails extends Component {
         </div>
 
 
-        <div>
-          <h2>Line Example</h2>
-          <Line data={this.data} />
-        </div>
+
+
 
 
 
