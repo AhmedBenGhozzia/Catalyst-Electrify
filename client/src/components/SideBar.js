@@ -29,16 +29,13 @@ export default class SideBar extends Component {
               <span className="menu-title">Prediction</span>
             </a>
           </li>
-    <li className="nav-item">
-                        <a className="nav-link" data-toggle="collapse" href="notifications" aria-expanded="false" aria-controls="charts">
-                            <i className="mdi mdi-bell" />
-                            <span className="menu-title">Notifications</span>
-                            <i className="menu-arrow" />
-                        </a><ul className="nav flex-column sub-menu">
-                             
-                            </ul>
-                       
-                   </li> 
+          <li className="nav-item">
+            <a className="nav-link" href="notifications">
+              <i className="mdi mdi-bell" />
+              <span className="menu-title">Notifications Dashboard</span>
+            </a>
+          </li>
+  
 
         </ul>
       </nav>
