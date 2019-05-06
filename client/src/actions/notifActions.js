@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from './types';
+import {NAVUNCHECKED_NOTIF,GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from './types';
 
 export const getNotif = ()=> dispatch =>{
 dispatch(setNotifLoading());
@@ -43,7 +43,7 @@ export const getSuccsess = ()=> dispatch =>{
         export const getInfo = ()=> dispatch =>{
             dispatch(setNotifLoading());
             axios
-            .post('/push/register')
+            .get('/notif/InfoNotif')
             .then(res =>
                 dispatch({
                     type : INFO_NOTIF,
@@ -66,10 +66,10 @@ export const getSuccsess = ()=> dispatch =>{
                     
                 
                 }
-export const getUncheked = ()=> dispatch =>{
+export const getUncheked = (id)=> dispatch =>{
     dispatch(setNotifLoading());
     axios
-    .get('/notif/UnchekedNotif')
+    .get(`http://localhost:5000/notif/UnchekedNotif/${id}`)
     .then(res =>
         dispatch({
             type : UNCHECKED_NOTIF,
@@ -79,6 +79,22 @@ export const getUncheked = ()=> dispatch =>{
         
     
     }
+
+    export const getnavUncheked = (id)=> dispatch =>{
+        dispatch(setNotifLoading());
+        axios
+        .get(`http://localhost:5000/notif/UnchekedNotif/${id}`)
+        .then(res =>
+            dispatch({
+                type : NAVUNCHECKED_NOTIF,
+                payload : res.data
+            }))
+        
+            
+        
+        }
+    
+
 export const addNotif = (notif)=> dispatch =>{
      
       axios.post('/notif',notif)

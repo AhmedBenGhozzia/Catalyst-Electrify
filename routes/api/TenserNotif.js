@@ -9,7 +9,7 @@ var predictData = JSON.parse(content1);
 const DataNotification = require('../../models/DataNotification');
 var obj =[];
 
-router.get('/test',(req,res)=>{
+router.get('/VenteAlert',(req,res)=>{
   DataNotification.find(function(err, data){
     if(err){            
         console.log(err);
@@ -64,7 +64,9 @@ model.compile({
   optimizer: tf.train.adam(.06),
 })
 
-model.fit(trainData, outputData, {epochs: 500,shuffle:true}).then()
+
+model.fit(trainData, outputData, {epochs: 100,shuffle:true}).then((history) => console.log(history))
+
 const data = tf.tensor([1,2,3,4]);
 
 router.get('/predict',function (req, res, next){

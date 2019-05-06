@@ -11,8 +11,8 @@ router.get('/nbrnotif',(req,res)=>{
         
     });
 });
-router.get('/UnchekedNotif',(req,res)=>{
-    Notification.find({Cheked : false}).then(Notifications =>res.json(Notifications));
+router.get('/UnchekedNotif/:id',(req,res)=>{
+    Notification.find({Cheked : false ,idUser :req.params.id} ).then(Notifications =>res.json(Notifications));
 });
 
 router.get('/SuccessNotif',(req,res)=>{
@@ -30,12 +30,19 @@ router.get('/DangerNotif',(req,res)=>{
     Notification.find({Cheked : false,type:"Danger"}).then(Notifications =>res.json(Notifications));
 });
 
+router.put('/CheckAll',(req,res)=>{
+    Notification.updateMany({Cheked : true ,idUser:"5c94ffd05cdd3d504caf6e30"}).then(Notifications =>res.json(Notifications));
+});
 
+router.put('/Checkone/:id',(req,res)=>{
+    Notification.update({_id :(req.params.id)} ,{ Cheked : true }).then(Notifications =>res.json(Notifications));
+});
 
 router.post('/',(req,res)=>{
 const newNotification = new Notification({
     name : req.body.name,
-    type :req.body.type 
+    type :req.body.type ,
+    idUser : req.body.idUser
 
 }); 
     newNotification.save().then(notification=>res.json(notification));

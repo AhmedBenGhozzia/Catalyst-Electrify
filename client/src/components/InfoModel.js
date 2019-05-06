@@ -17,6 +17,8 @@ import {subscribePush,unsubscribePush} from './main.js'
 import { MDBDataTable } from 'mdbreact';
 class InfoModel extends Component {
 
+
+
         state = {
           modal: false,
           name: '',
@@ -42,6 +44,7 @@ this.toggle();
 
 componentDidMount() {
       this.props.getInfo();
+
     }
 List = (t) => {
   let tab = [];
@@ -60,7 +63,8 @@ List = (t) => {
 render(){
   const { NotificationsInfo } = this.props.notifStatus;
 console.log(NotificationsInfo);
-console.log(this.props.user)
+if (this.props.user != null){
+console.log(this.props.user._id)}
   let test2 = this.List(NotificationsInfo) ;
   const data = {
     columns: [
@@ -91,7 +95,8 @@ return(
 <Button Component="dark"  className="alert-dark"
 onClick ={this.toggle}  >
 Show Danger </Button>
-{subscribePush()} {unsubscribePush()}
+{unsubscribePush()}
+{subscribePush()}
 <Modal  className ="my-modal"
 isOpen={this.state.modal}
 toggle ={this.toggle}>
