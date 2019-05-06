@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import Setting from "./components/Settings";
-import SideBar from "./components/SideBar";
 
 import store from './store';
 import { loadUser } from './actions/authActions'
@@ -54,6 +52,7 @@ class App extends Component {
             <Route path="/RtChart" component={RtChart}/>
             <Route path="/Battery" component={Battery}/>
             <Route path="/Spinners" component={Spinners}/>
+
             <Route component={NotFound} />
           </Switch>
         </Router>

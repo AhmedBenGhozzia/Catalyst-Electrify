@@ -1,6 +1,6 @@
 var http = require('http');
 var request = require('request');
-const smarthub= require('../Catalyst-Electrify/models/smartHub');
+const smarthub= require('./models/smartHub');
 
 
   

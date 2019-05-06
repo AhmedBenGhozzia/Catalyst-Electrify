@@ -6,11 +6,13 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const User = require('./routes/api/UserRoute');
+const predict = require('./routes/api/PredictRoute');
 const SmartHub = require('./routes/api/SmartHubRoutes');
 const ProdCons = require('./routes/api/ProdConsRoutes');
 const Notif = require('./routes/api/NotificationRoute');
 const DataNotification = require('./routes/api/DataNotificationRoute');
 const tenserNotif = require('./routes/api/TenserNotif');
+const push = require('./routes/api/push');
 const config = require('config');
 var app = express();
 var cors = require('cors')
@@ -74,19 +76,28 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'));
+
+  app.get('*', (req,res)=>{
+    res.sendFile(path.resolve(__dirname, 'clent', 'build', 'index.html'))
+  })
+}
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/user',User);
+app.use('/api/predict',predict);
 app.use('/api/SmartHub',SmartHub);
 app.use('/api/ProdCons',ProdCons);
 app.use('../Catalyst-Electrify/loop.js',setInterval);
 app.use('/notif',Notif);
 app.use('/DataNotification',DataNotification);
 app.use('/n',tenserNotif);
-
+app.use('/push',push);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

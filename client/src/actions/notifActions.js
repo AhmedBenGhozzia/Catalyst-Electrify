@@ -43,7 +43,7 @@ export const getSuccsess = ()=> dispatch =>{
         export const getInfo = ()=> dispatch =>{
             dispatch(setNotifLoading());
             axios
-            .get('/notif/InfoNotif')
+            .post('/push/register')
             .then(res =>
                 dispatch({
                     type : INFO_NOTIF,
