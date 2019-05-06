@@ -105,10 +105,8 @@ router.get('/', function (req, res, next) {
       element.Energy = energy[index]
     });
     res.send(data.hourly.data)
-    next()
   }).error(function (err) {
     res.send(err)
-    next()
   });
 })
 
