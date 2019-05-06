@@ -78,7 +78,7 @@ import PropTypes from 'prop-types';
             
             
           var marker = new window.google.maps.Marker({
-            position: {lat: Math.trunc(smartHub.lat) , lng: Math.trunc(smartHub.lon)},
+            position: {lat: Number(smartHub.lat) , lng: Number(smartHub.lon)},
             map: map,
             title: smartHub.serialNumber
           })

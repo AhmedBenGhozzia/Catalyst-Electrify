@@ -19,7 +19,7 @@ class NavBar extends Component {
 
             <nav className="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
                 <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                    <a className="navbar-brand brand-logo" href=""><img src="http://www.urbanui.com/fily/template/images/logo.svg" alt="logo" /></a>
+                    <a className="navbar-brand brand-logo" href=""><img src="https://media.licdn.com/dms/image/C4D0BAQGD5jtq1hJhFQ/company-logo_200_200/0?e=2159024400&v=beta&t=C8y8ngnlF3B2eLWnTnzDz8H1Dj1bLsgqTnUPl6n6X84" alt="logo" /></a>
                     <a className="navbar-brand brand-logo-mini" href=""><img src="http://www.urbanui.com/fily/template/images/logo-mini.svg" alt="logo" /></a>
                 </div>
                 <div className="navbar-menu-wrapper d-flex align-items-center">

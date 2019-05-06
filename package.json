@@ -42,6 +42,7 @@
     "react-datetime-picker": "^2.3.0",
     "react-dom": "^16.8.6",
     "react-html-table-to-excel": "^2.0.0",
+    "react-liquid-gauge": "^1.2.4",
     "react-loader-spinner": "^2.3.0",
     "react-popup": "^0.10.0",
     "react-rt-chart": "^2.0.0",
