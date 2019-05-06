@@ -145,7 +145,7 @@ export default class Example extends React.Component {
     for (let index = 0; index < this.state.numberOfDay; index++) {
       table.push(
         <tr>
-          <td> {this.state.dates[index]}</td>
+          <td> {new Date(+this.state.dates[index]).toDateString()}</td>
           <td className="font-weight-bold">{this.state.prods[index]}</td>
           <td className="font-weight-bold">{this.state.conss[index]}</td>
           <td>
@@ -241,13 +241,14 @@ export default class Example extends React.Component {
     return (
       <>
         <Button variant="primary" onClick={this.handleShow}>
-          Launch demo modal
+          Send transaction(s)
         </Button>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>
-              Modal heading {this.state.numberOfDay}
+              List of waiting transactions &nbsp;&nbsp;
+              <span className="badge badge-info">{this.state.numberOfDay}</span>
 
 
 
@@ -273,9 +274,7 @@ export default class Example extends React.Component {
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.handleClose}>
-              Save Changes
-            </Button>
+
           </Modal.Footer>
         </Modal>
       </>

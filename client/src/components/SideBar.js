@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import DataTable from './DataTableSmart';
 export default class SideBar extends Component {
+
   render() {
     return (
 
@@ -30,6 +31,7 @@ export default class SideBar extends Component {
             </a>
           </li>
           <li className="nav-item">
+
             <a className="nav-link" href="notifications">
               <i className="mdi mdi-bell" />
               <span className="menu-title">Notifications Dashboard</span>
@@ -39,7 +41,6 @@ export default class SideBar extends Component {
 
         </ul>
       </nav>
-
 
 
     )

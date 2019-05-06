@@ -16,6 +16,7 @@ export default class Home extends Component {
       <div className="container-scroller">
         <NavBar />
         <div className="container-fluid page-body-wrapper">
+
           <Setting />
           <SideBar />
           <div className="main-panel">
