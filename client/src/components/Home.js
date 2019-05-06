@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard";
 import CatalystDetails from "./CatalystDetails";
 import CatalystTransaction from "./CatalystTransaction";
 
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 export default class Home extends Component {
@@ -15,6 +16,7 @@ export default class Home extends Component {
       <div className="container-scroller">
         <NavBar />
         <div className="container-fluid page-body-wrapper">
+
           <Setting />
           <SideBar />
           <div className="main-panel">

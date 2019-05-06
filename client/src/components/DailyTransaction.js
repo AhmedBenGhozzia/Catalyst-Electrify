@@ -1,6 +1,8 @@
 import Catalyst from "../ethereum/Catalyst";
 import web3 from "../ethereum/web3";
 import React from "react";
+import '../css/MultipleModals.css';
+
 
 var catalyst;
 var totalConsumption;

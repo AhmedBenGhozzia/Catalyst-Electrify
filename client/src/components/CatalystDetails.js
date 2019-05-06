@@ -4,6 +4,9 @@ import ModalExampleMultiple from "./MultipleModals";
 import { MDBDataTable } from 'mdbreact';
 import '../css/MultipleModals.css';
 import { Line, Bar } from 'react-chartjs-2';
+import NavBar from "./NavBar";
+import Setting from "./Settings";
+import SideBar from "./SideBar";
 
 
 
@@ -205,6 +208,8 @@ export default class CatalystDetails extends Component {
       compteur = new Date().getDate() - date.getDate();
     }
     this.setState({ numTransaction: compteur });
+    console.log("****************************");
+    console.log(this.state.numTransaction);
   }
 
   dateFormat = d => {
@@ -354,131 +359,142 @@ export default class CatalystDetails extends Component {
     };
 
     return (
-      <div className="content-wrapper">
 
-        {(this.state.numTransaction > 0) &&
-          <div className="row">
-            <div className="col-md-12 grid-margin">
-              <div className="card">
-                <div className="card-body d-flex align-items-center justify-content-between">
-                  <h4 className="mt-1 mb-1">Hi, Welcomeback! You have {this.state.numTransaction} Transactions waiting</h4>
-                  <ModalExampleMultiple
-                    address={this.props.match.params.address}
-                    handler={this.Modalhandler}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        }
+      <div className="container-scroller">
+        <NavBar />
+        <div className="container-fluid page-body-wrapper">
+          <Setting />
+          <SideBar />
+          <div className="main-panel">
+            <div className="content-wrapper">
 
-
-
-
-        <div className="row">
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card border-0 border-radius-2 bg-success">
-              <div className="card-body">
-                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
-                  <div className="icon-rounded-inverse-success icon-rounded-lg">
-                    <i className="mdi mdi-arrow-top-right" />
-                  </div>
-                  <div className="text-white">
-                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">
-                      Production Totale
-                    </p>
-                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
-                        {this.state.totalProduction}
-                      </h3>
-
+              {(this.state.numTransaction > 0) &&
+                <div className="row">
+                  <div className="col-md-12 grid-margin">
+                    <div className="card">
+                      <div className="card-body d-flex align-items-center justify-content-between">
+                        <h4 className="mt-1 mb-1">Hi, Welcomeback! You have {this.state.numTransaction} Transactions waiting</h4>
+                        <ModalExampleMultiple
+                          address={this.props.match.params.address}
+                          handler={this.Modalhandler}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-6 grid-margin stretch-card">
-            <div className="card border-0 border-radius-2 bg-danger">
-              <div className="card-body">
-                <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
-                  <div className="icon-rounded-inverse-danger icon-rounded-lg">
-                    <i className="mdi mdi-chart-donut-variant" />
-                  </div>
-                  <div className="text-white">
-                    <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">
-                      Consumption Totale
-                    </p>
-                    <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
-                      <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
-                        {this.state.totalConsumption}
-                      </h3>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h2>Line chart of consumption and production </h2>
-          <Line data={data}
-
-            width={100}
-            height={80}
-
-            options={{
-              maintainAspectRatio: false,
-              scales: {
-
-                xAxes: [{
-                  type: 'time',
-                  ticks: {
-                    autoSkip: true,
-                    maxTicksLimit: 20
-                  }
-                }]
               }
-            }} />
 
 
-        </div>
-
-        <div>
-          <h2>Bar chart of consumption and production (by month)</h2>
-          <Bar
-            data={data2}
-            width={100}
-            height={150}
-            options={{
-              maintainAspectRatio: false
-            }}
 
 
-          />
-        </div>
-        <div className="col-md-12">
-          <div className="card">
-
-            <div className="card-body">
-              <h2 className="card-title">History of transactions</h2>
               <div className="row">
-                <div className="my-modal2">
-                  {this.DatatablePage()}
+                <div className="col-md-6 grid-margin stretch-card">
+                  <div className="card border-0 border-radius-2 bg-success">
+                    <div className="card-body">
+                      <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                        <div className="icon-rounded-inverse-success icon-rounded-lg">
+                          <i className="mdi mdi-arrow-top-right" />
+                        </div>
+                        <div className="text-white">
+                          <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">
+                            Production Totale
+                    </p>
+                          <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                            <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
+                              {this.state.totalProduction}
+                            </h3>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-md-6 grid-margin stretch-card">
+                  <div className="card border-0 border-radius-2 bg-danger">
+                    <div className="card-body">
+                      <div className="d-flex flex-md-column flex-xl-row flex-wrap  align-items-center justify-content-between">
+                        <div className="icon-rounded-inverse-danger icon-rounded-lg">
+                          <i className="mdi mdi-chart-donut-variant" />
+                        </div>
+                        <div className="text-white">
+                          <p className="font-weight-medium mt-md-2 mt-xl-0 text-md-center text-xl-left">
+                            Consumption Totale
+                    </p>
+                          <div className="d-flex flex-md-column flex-xl-row flex-wrap align-items-baseline align-items-md-center align-items-xl-baseline">
+                            <h3 className="mb-0 mb-md-1 mb-lg-0 mr-1">
+                              {this.state.totalConsumption}
+                            </h3>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div>
+                <h2>Line chart of consumption and production </h2>
+                <Line data={data}
+
+                  width={100}
+                  height={80}
+
+                  options={{
+                    maintainAspectRatio: false,
+                    scales: {
+
+                      xAxes: [{
+                        type: 'time',
+                        ticks: {
+                          autoSkip: true,
+                          maxTicksLimit: 20
+                        }
+                      }]
+                    }
+                  }} />
+
+
+              </div>
+
+              <div>
+                <h2>Bar chart of consumption and production (by month)</h2>
+                <Bar
+                  data={data2}
+                  width={100}
+                  height={150}
+                  options={{
+                    maintainAspectRatio: false
+                  }}
+
+
+                />
+              </div>
+              <div className="col-md-12">
+                <div className="card">
+
+                  <div className="card-body">
+                    <h2 className="card-title">History of transactions</h2>
+                    <div className="row">
+                      <div className="my-modal2">
+                        {this.DatatablePage()}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+
             </div>
+
           </div>
         </div>
-
-
-
-
-
-
-
       </div>
     );
   }
