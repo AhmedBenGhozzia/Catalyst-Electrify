@@ -43,9 +43,9 @@ export default class RtChart extends Component {
     }
 
     generateRandomNumber() {
-        var min = 0.200,
-            max = 0.720,
-            highlightedNumber = ((Math.random() * (max - min) + min)/3600)*5;
+        var min = 3,
+            max = 4,
+            highlightedNumber = ((Math.random() * (max - min) + min)/1000);
     
         return highlightedNumber;
     };

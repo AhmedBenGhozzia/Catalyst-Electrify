@@ -162,22 +162,17 @@ var request = require('request');
 
                             </ReactTable>
                         </div>
-                        <div style={{backgroundColor :'#222840'}}>
-                        <h3 style={{color:'blue',textAlign:'center'}}>SmartHubs average battery storage (Total capacity is 14Kwatts)</h3>
-                        </div>
-                        <div style={{textAlign:'center',backgroundColor :'#222840'}}>
-                        <div style={{ width: '300px',height:'350px', display: 'inline-block' }}>
+                        <div style={{backgroundColor :'#ffffff'}}>
+                        <h3 style={{color:'blue',textAlign:'center'}}>SmartHub #1485555302
+ average battery storage (Total capacity is 1 Kwatts)</h3>
                         
-                        <ProgressBar striped variant="success" now={this.state.now} label={`${this.state.now}%`} />
+                        <div style={{textAlign:'center',backgroundColor :'#ffffff'}}>
+                        <div style={{ width: '300px',height:'350px', display: 'inline-block' }}>
+                        <Battery/>
+                        </div>
                         </div>
                         </div>        
-                        <div className="content-wrapper">
-                            <Router>
-                                <Switch>
-                                    <Route  component={ItemModal} />
-                                </Switch>
-                            </Router>
-                        </div>
+        
                         
                     </div>
                 </div>
