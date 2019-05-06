@@ -29,10 +29,14 @@ class Notification extends Component {
     super(props);
 this.state =  {user : null,Data:[]}
 this.toggleDataSeries = this.toggleDataSeries.bind(this);
-this.onvoice = this.onvoice.bind(this);
-
 
   } 
+  
+  onSendEmail = () => {
+    axios.get('http://localhost:5000/push/Emailpredctionsell');
+
+
+     }
   toggleDataSeries(e){
 		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
 			e.dataSeries.visible = false;
@@ -136,7 +140,7 @@ self2.push(data);
 
 
 speech.speak({
-    text: 'you have validate your sell Check your email',
+    text: 'you have new sell notification validate your sell',
 }).then(() => {
     console.log("Success !")
 }).catch(e => {
@@ -248,6 +252,7 @@ speech.speak({
 
 if(prediction== true){
   this.onvoice();
+  this.onSendEmail();
 }
 
 

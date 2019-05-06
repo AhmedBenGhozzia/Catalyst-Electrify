@@ -17,15 +17,15 @@ const transporter = nodemailer.createTransport({
   },
 });
 var mailOptions = {
-    from: 'Haboub <habib.daou@esprit.tn>',
+    from: 'Electrify <habib.daou@esprit.tn>',
     to: 'nolivetg@gmail.com',
-    subject: 'Nodemailer test',
-    text: 'Hello World!!'
+    subject: 'Prediction of sell',
+    text: 'You have prediction result you can sell some energy'
 }
 var mailOptions2 = {
   from: 'Electrify <habib.daou@esprit.tn>',
   to: 'nolivetg@gmail.com',
-  subject: 'Electrify',
+  subject: 'Electrify Sell confirmation',
   text: 'Thank you for using our application you accepted to sell Energy!'
 }
 
@@ -68,7 +68,7 @@ router.delete("/unregister", (req, res, next) => {
 })
 
 
-router.get('/test', (req, res) => {
+router.get('/Emailpredctionsell', (req, res) => {
   transporter.sendMail(mailOptions, function (err, res) {
     if(err){
     console.log(res);

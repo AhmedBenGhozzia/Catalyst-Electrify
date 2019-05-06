@@ -11,7 +11,7 @@ import Speech from 'speak-tts';
 
     constructor(props) {
         super(props);
-    this.state =  {user : null}
+    this.state =  {user : null,check:false}
     
       } 
     componentDidMount(){
@@ -26,6 +26,7 @@ import Speech from 'speak-tts';
     
     onCheckClick = () => {
      axios.put('http://localhost:5000/notif/CheckAll');
+     this.setState({check : true});
 
       }
       onvoice = () => {
@@ -168,10 +169,9 @@ import Speech from 'speak-tts';
                         <div className="d-flex align-items-center justify-content-between border-bottom">
                             <p className="settings-heading border-top-0 mb-3 pl-3 pt-0 border-bottom-0 pb-0">Uncheked Notification</p>
                             <button  onClick={()=>this.onCheckClick()}  className="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 font-weight-normal">Check All</button>
-                            <button  onClick={()=>this.onvoice()}  className="settings-heading border-top-0 mb-3 pt-0 border-bottom-0 pb-0 pr-3 font-weight-normal">VoicePlayer</button>
 
                         </div>
-                        <ul className="chat-list">
+                        <ul className="chat-list" hidden={this.state.check}>
                         {NotificationUNCHECKED.map(({ _id,name, date }) => (       
     <div key={_id}>   <li className="list">
                             <i className="mdi mdi-bell" />
