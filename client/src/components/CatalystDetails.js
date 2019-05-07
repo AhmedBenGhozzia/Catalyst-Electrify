@@ -151,11 +151,8 @@ export default class CatalystDetails extends Component {
 
     return (
       <MDBDataTable
-
-
+        striped
         bordered
-        hover
-        dark
         data={data}
       />
     );
@@ -253,6 +250,7 @@ export default class CatalystDetails extends Component {
         consumtionHistory
       });
       this.getNumberTransaction();
+      this.getConsByMonth();
 
 
     }, 1000)

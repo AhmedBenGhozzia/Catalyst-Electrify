@@ -1,13 +1,33 @@
 
 
-.my-modal33 {
+.my-modal2  {
    
       width: 90vw  ;  /* Occupy the 90% of the screen width */
       max-width: 90vw;
+
     }
+
+th{
+
+  color: #fff;
+  font-weight : bold;
+  font-weight: 500;
+
+
+}
+
+
+.dataTables_filter {
+  color: brown;
+}
+ 
+   
 
 .my-modal3{
    
       width: 65vw  ;  /* Occupy the 90% of the screen width */
       max-width: 70vw;
     }
+
+.modal-content
+  {background-color: #000033;}
