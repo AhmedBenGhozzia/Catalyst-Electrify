@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 import { Button } from "semantic-ui-react";
 import Catalyst from "../ethereum/Catalyst";
 import web3 from "../ethereum/web3";
+import '../css/MultipleModals.css';
+
 
 
 export default class Example extends React.Component {

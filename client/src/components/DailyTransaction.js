@@ -54,8 +54,8 @@ async function verifyTransaction(address) {
       table.push(
         <tr>
           <td> {Date.parse(new Date()) - compteur * 86400000}</td>
-          <td class="font-weight-bold">{randomIntFromInterval(5, 10000)}</td>
-          <td class="font-weight-bold">{randomIntFromInterval(5, 10000)}</td>
+          <td className="font-weight-bold" >{randomIntFromInterval(5, 10000)}</td>
+          <td className="font-weight-bold">{randomIntFromInterval(5, 10000)}</td>
           <td>
             <button>push</button>
           </td>
