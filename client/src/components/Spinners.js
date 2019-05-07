@@ -3,7 +3,7 @@ import Loader from 'react-loader-spinner'
 import openSocket from 'socket.io-client';
 import DateTime from './DateTime'
 import axios from 'axios';
-import {  toast } from 'react-toastify';
+import {ToastContainer,  toast } from 'react-toastify';
 
 const socket = openSocket('http://localhost:5000');
 
@@ -173,7 +173,7 @@ class Spinners extends Component {
             color={this.state.HumidityColor}
             height="100"	
             width="100"
-         />   
+         />   <ToastContainer/>
          </div>
          <div style={{float:"left"}}>
          <p style={{textAlign:'center'}}>Temperature </p>

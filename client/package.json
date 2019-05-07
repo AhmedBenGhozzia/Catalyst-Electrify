@@ -46,7 +46,7 @@
     "react-scripts": "2.1.8",
     "react-speech": "^0.3.2",
     "react-table": "^6.9.2",
-    "react-toastify": "^5.0.0-rc.3",
+    "react-toastify": "^5.1.0",
     "react-transition-group": "^2.7.1",
     "react-voice-components": "^1.0.0",
     "react-websocket": "^2.0.1",

@@ -18,16 +18,18 @@ router.get('/UnchekedNotif/:id',(req,res)=>{
 router.get('/SuccessNotif',(req,res)=>{
     Notification.find({Cheked : false,type:"Success"}).then(Notifications =>res.json(Notifications));
 });
-
+router.get('/SuccessNotification',(req,res)=>{
+    Notification.find({type:"Success"}).then(Notifications =>res.json(Notifications));
+});
 router.get('/WarningNotif',(req,res)=>{
-    Notification.find({Cheked : false,type:"Warning"}).then(Notifications =>res.json(Notifications));
+    Notification.find({type:"Warning"}).then(Notifications =>res.json(Notifications));
 });
 router.get('/InfoNotif',(req,res)=>{
-    Notification.find({Cheked : false,type:"Info"}).then(Notifications =>res.json(Notifications));
+    Notification.find({type:"Info"}).then(Notifications =>res.json(Notifications));
 });
 
 router.get('/DangerNotif',(req,res)=>{
-    Notification.find({Cheked : false,type:"Danger"}).then(Notifications =>res.json(Notifications));
+    Notification.find({type:"Danger"}).then(Notifications =>res.json(Notifications));
 });
 
 router.put('/CheckAll',(req,res)=>{

@@ -10,7 +10,7 @@ import {
   Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import {getNotif ,getUncheked,getSuccsess} from '../actions/notifActions';
+import {getNotif ,getUncheked,getUSuccsess} from '../actions/notifActions';
 import 'react-redux-datatable/dist/styles.css';
 import PropTypes, { array } from 'prop-types';
 
@@ -42,7 +42,7 @@ this.toggle();
 }
 
 componentDidMount() {
-      this.props.getSuccsess();
+      this.props.getUSuccsess();
       
     }
 List = (t) => {
@@ -60,9 +60,9 @@ List = (t) => {
   return tab;
 }
 render(){
-  const { NotificationStatus } = this.props.notifStatus;
-console.log(NotificationStatus);
-  let test2 = this.List(NotificationStatus) ;
+  const { NotificationSuccess } = this.props.notifStatus;
+console.log(NotificationSuccess);
+  let test2 = this.List(NotificationSuccess) ;
   const data = {
     columns: [
       {
@@ -130,7 +130,7 @@ toggle ={this.toggle}
 
 
 SuccsessModel.propTypes = {
-  getSuccsess: PropTypes.func.isRequired,
+  getUSuccsess: PropTypes.func.isRequired,
   notifStatus: PropTypes.object.isRequired
 
 }
@@ -142,4 +142,4 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps, { getNotif, getSuccsess })(SuccsessModel);
+export default connect(mapStateToProps, { getNotif, getUSuccsess })(SuccsessModel);
