@@ -23,5 +23,6 @@ export const WARNING_NOTIF= 'WARNING_NOTIF';
 export const INFO_NOTIF= 'INFO_NOTIF';
 export const DANGER_NOTIF= 'DANGER_NOTIF';
 export const GET_COORD = 'GET_COORD';
+export const USUCCESS_NOTIF= 'USUCCESS_NOTIF';
 
 export const NAVUNCHECKED_NOTIF = 'GET_COORD';

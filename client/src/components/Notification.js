@@ -1,7 +1,7 @@
 import SuccsessModel from './SuccsessModel';
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css' 
 import 'react-redux-datatable/dist/styles.css';
 import { connect } from 'react-redux';
 import { getNotif, deleteNotif, getUncheked } from '../actions/notifActions';
@@ -27,7 +27,7 @@ class Notification extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { user: null, Data: [] }
+    this.state = { user: null, Data: [] , test : false}
     this.toggleDataSeries = this.toggleDataSeries.bind(this);
 
   }
@@ -37,6 +37,7 @@ class Notification extends Component {
 
 
   }
+  
   toggleDataSeries(e) {
     if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
       e.dataSeries.visible = false;
@@ -46,9 +47,11 @@ class Notification extends Component {
     }
     this.chart.render();
   }
-  componentDidMount() {
+  
 
-
+  componentDidMount() { 
+    this.props.getUncheked("5c94ffd05cdd3d504caf6e30");
+     this.notify(); 
     axios.get('http://localhost:5000/DataNotification/test')
       .then(res => {
         var obj = res.data; obj.forEach(function (data) {
@@ -57,7 +60,7 @@ class Notification extends Component {
 
         })
       })
-
+     
 
     axios.get('http://localhost:5000/DataNotification/test2')
       .then(res => {
@@ -67,46 +70,49 @@ class Notification extends Component {
 
         })
       })
-    var refreshIntervalId = setInterval(() => {
-      this.setState({ user: this.props.user }, console.log(this.state.user))
-      if (this.state.user != null) {
+  
+      var refreshIntervalId = setInterval(() => {
 
-
-        user = this.state.user._id;
-        this.props.getUncheked(this.state.user._id);
-        //axios.get('http://localhost:5000/AlertNotif/NotifAlert/'+this.state.user._id)
-        axios.get('http://localhost:5000/AlertNotif/predict')
-          .then(function (response) {
-            var tab = Object.values(response.data); console.log(user);
-            tab.forEach(function (data) {
-
-              if (data > 0) {
-                prediction = true;
-                axios({
-                  method: 'post',
-                  url: "http://localhost:5000/notif",
-                  headers: {},
-                  data: {
-                    Cheked: false,
-                    name: "SUCCESS : You can sell some energy ",
-                    type: "Success",
-                    idUser: user
-                  }
-
-                });
-              }
-
+        this.setState({ user: this.props.user }, console.log(this.state.user))
+        if (this.state.user != null) {
+       
+    
+          user = this.state.user._id;
+          //axios.get('http://localhost:5000/AlertNotif/NotifAlert/'+this.state.user._id)
+          axios.get('http://localhost:5000/AlertNotif/predict')
+            .then(function (response) {
+              var tab = Object.values(response.data); console.log(user);
+              tab.forEach(function (data) {
+    
+                if (data > 0) {
+                  prediction = true;
+                  axios({
+                    method: 'post',
+                    url: "http://localhost:5000/notif",
+                    headers: {},
+                    data: {
+                      Cheked: false,
+                      name: "SUCCESS : You can sell some energy ",
+                      type: "Success",
+                      idUser: user
+                    }
+    
+                  });
+                }
+    
+              })
+    
+              console.log("*************************************");
+    
             })
-
-            console.log("*************************************");
-
-          })
-
-        clearInterval(refreshIntervalId);
-        this.notify();
-      }
-    }, (7000));
-
+            
+    
+          clearInterval(refreshIntervalId);
+    
+             
+    
+        }
+      }, (90000));
 
   }
   onDeleteClick = (id) => {
@@ -200,34 +206,35 @@ class Notification extends Component {
 
   notify = () => toast(<i className="mdi  mdi-alert-circle" >  Welcom to Dashbord Notificatons</i>, {
     position: toast.POSITION.TOP_LEFT,
+    toastId:1
   }, { autoClose: 15000 });
-  Danger = (name) => toast.error(<i className="mdi  mdi-alert-circle" >  {name.name}</i>, {
-    position: toast.POSITION.BOTTOM_RIGHT,
+  Danger = (name,id) => toast.error(<i className="mdi  mdi-alert-circle" >  {name.name}</i>, {
+    position: toast.POSITION.BOTTOM_RIGHT,  toastId:id._id
   }, { autoClose: 15000 });
-  Success = (name) => toast.success(<i className="mdi mdi-alarm-light" >  {name.name}</i>, {
-    position: toast.POSITION.TOP_RIGHT
-  }, { autoClose: 15000 });
-
-  Info = (name) => toast.info(<i className="mdi mdi-information" >  {name.name}</i>, {
-    position: toast.POSITION.BOTTOM_CENTER
-  }, { autoClose: 15000 });
-  Warning = (name) => toast.warn(<i className="mdi mdi-alert" >  {name.name}</i>, {
-    position: toast.POSITION.BOTTOM_LEFT
+  Success = (name,id) => toast.success(<i className="mdi mdi-alarm-light" >  {name.name}</i>, {
+    position: toast.POSITION.TOP_RIGHT,  toastId:id._id
   }, { autoClose: 15000 });
 
-  notificationsTypes = (type2, name) => {
+  Info = (name,id) => toast.info(<i className="mdi mdi-information" >  {name.name}</i>, {
+    position: toast.POSITION.BOTTOM_CENTER,  toastId:id._id
+  }, { autoClose: 15000 });
+  Warning = (name,id) => toast.warn(<i className="mdi mdi-alert" >  {name.name}</i>, {
+    position: toast.POSITION.BOTTOM_LEFT,  toastId:id._id
+  }, { autoClose: 15000 });
+
+  notificationsTypes = (id,type2, name) => {
     const type1 = { type: "Danger" };
     const type0 = { type: "Warning" };
     const type3 = { type: "Success" };
     const type4 = { type: "Info" };
     if (JSON.stringify(type2) == JSON.stringify(type1)
     ) {
-      this.Danger(name);
+      this.Danger(name,id);
     }
     else if (JSON.stringify(type2) == JSON.stringify(type0)) {
-      this.Warning(name);
-    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(name); }
-    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info(name); }
+      this.Warning(name,id);
+    } else if (JSON.stringify(type2) == JSON.stringify(type3)) { this.Success(name,id); }
+    else if (JSON.stringify(type2) == JSON.stringify(type4)) { this.Info(name,id); }
   }
 
 
@@ -266,9 +273,10 @@ class Notification extends Component {
     let test1 = this.List(Notifications);
 
     const options2 = {
-      theme: "light2",
+      theme: "dark2",
       animationEnabled: true,
       exportEnabled: true,
+      backgroundColor: "#222840",
 
       title: {
         text: "Energy Sell States "
@@ -322,6 +330,8 @@ class Notification extends Component {
       animationEnabled: true,
       exportFileName: "",
       exportEnabled: true,
+      backgroundColor: "#222840"
+,
       title: {
         text: "Notification Stats"
       },
@@ -352,24 +362,19 @@ class Notification extends Component {
           <div className="main-panel">
             <div className="content-wrapper">
               <div>
-
-
+              <ToastContainer      
+/>
 
                 {Notifications.map(({ _id, name, type }) => (
-                  <p key={_id}>{this.notificationsTypes({ type }, { name })}
+                  <p key={_id}>{this.notificationsTypes({_id},{ type }, { name })}
 
                   </p>
                 ))}
-
-
-
                 <div className="main-panel">
                   <CanvasJSChart options={options2}
                     onRef={ref => this.chart = ref}
                   />              <div className="content-wrapper">
                     <div className="row">
-
-
 
 
 
@@ -472,7 +477,8 @@ class Notification extends Component {
                   </footer>
                   {/* partial */}
                 </div>
-                {/* main-panel ends */}
+ 
+
               </div>
               {/* page-body-wrapper ends */}
             </div>

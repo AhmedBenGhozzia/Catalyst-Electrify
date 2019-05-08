@@ -95,8 +95,7 @@ return(
 <Button Component="dark"  className="alert-dark"
 onClick ={this.toggle}  >
 Show Danger </Button>
-{unsubscribePush()}
-{subscribePush()}
+
 <Modal  className ="my-modal"
 isOpen={this.state.modal}
 toggle ={this.toggle}>
@@ -141,4 +140,4 @@ user :state.auth.user
 });
 
 
-export default connect(mapStateToProps, { getNotif,getInfo,subscribePush,unsubscribePush })(InfoModel);
+export default connect(mapStateToProps, { getNotif,getInfo })(InfoModel);

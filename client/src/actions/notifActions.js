@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {NAVUNCHECKED_NOTIF,GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from './types';
+import {USUCCESS_NOTIF,NAVUNCHECKED_NOTIF,GET_NOTIFICATIONS,ADD_NOTIFICATIONS,DELETE_NOTIFICATIONS,NOTIF_LOADING,UNCHECKED_NOTIF,DANGER_NOTIF,INFO_NOTIF,WARNING_NOTIF,SUCCESS_NOTIF} from './types';
 
 export const getNotif = ()=> dispatch =>{
 dispatch(setNotifLoading());
@@ -27,6 +27,20 @@ export const getSuccsess = ()=> dispatch =>{
         
     
     }
+
+    export const getUSuccsess = ()=> dispatch =>{
+        dispatch(setNotifLoading());
+        axios
+        .get('/notif/SuccessNotification')
+        .then(res =>
+            dispatch({
+                type : USUCCESS_NOTIF,
+                payload : res.data
+            }))
+        
+            
+        
+        }
     export const getWarning = ()=> dispatch =>{
         dispatch(setNotifLoading());
         axios
